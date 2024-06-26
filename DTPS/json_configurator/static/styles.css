@@ -1,0 +1,30 @@
+/* static/styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+.form-container {
+    margin-bottom: 20px;
+}
+
+.class-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.class-item {
+    margin-bottom: 10px;
+}
+
+.instance-list {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.json-output {
+    white-space: pre-wrap;
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-radius: 5px;
+}

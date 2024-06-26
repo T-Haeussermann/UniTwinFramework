@@ -1,0 +1,588 @@
+{
+    "intents": [
+            {
+              "tag": "_uid",
+              "patterns": [
+                "What is your uid?",
+                "Tell me your uid?",
+                "How are you identified?",
+                "Which number are you associated with?",
+                "What is your name?",
+                "How do I call you?",
+                "Who are you?",
+                "Give me your uid",
+                "What's your identification number?",
+                "ID, please?",
+                "Can you share your uid?",
+                "Tell me your identification code",
+                "Provide your unique identifier",
+                "What's your personal code?",
+                "How do I recognize you?",
+                "Tell me the number linked to you",
+                "What's your ID?",
+                "I need your identification",
+                "Share your unique code",
+                "How can I find you?",
+                "What is your uuid?",
+                "Tell me your uuid?",
+                "How are you identified with your uuid?",
+                "Which number are you associated with? (uuid)",
+                "What is your name? (uuid)",
+                "How do I call you? (uuid)",
+                "Who are you? (uuid)",
+                "Give me your uuid",
+                "What's your identification number? (uuid)",
+                "ID, please? (uuid)",
+                "Can you share your uuid?",
+                "Tell me your identification code (uuid)",
+                "Provide your unique identifier (uuid)",
+                "What's your personal code? (uuid)",
+                "How do I recognize you with your uuid?",
+                "Tell me the number linked to you (uuid)",
+                "What's your ID? (uuid)",
+                "I need your identification (uuid)",
+                "Share your unique code (uuid)",
+                "How can I find you with your uuid?"
+              ],
+              "responses": [
+                "My uid is {_uid}.",
+                "I'm associated with the uid {_uid}.",
+                "You can call me by the uid {_uid}.",
+                "I go by the name associated with uid {_uid}.",
+                "The number linked to me is {_uid}.",
+                "Call me by the identifier {_uid}.",
+                "I have the unique identifier {_uid}.",
+                "You can recognize me by the code {_uid}.",
+                "My personal code is {_uid}.",
+                "ID number: {_uid}.",
+                "You can refer to me using the code {_uid}.",
+                "The identification code is {_uid}.",
+                "Here is my unique identifier: {_uid}.",
+                "You can find me through the code {_uid}.",
+                "Recognize me by my ID: {_uid}.",
+                "My unique code is {_uid}.",
+                "I am identified by the code {_uid}.",
+                "You'll know me by the ID {_uid}.",
+                "My ID is {_uid}.",
+                "Feel free to use my identification code: {_uid}."
+              ]
+            },
+        {
+            "tag": "_children",
+            "patterns": [
+                "What are your child elements?",
+                "List your subordinate objects",
+                "Identify your offspring nodes",
+                "Provide the names of your descendant elements",
+                "Enumerate your leaf objects",
+                "What entities make up your family structure?",
+                "Tell me about your family members",
+                "List the members of your structure",
+                "Describe your child nodes",
+                "What objects constitute your composition?",
+                "How can I recognize your child elements?",
+                "Name your descendant entities",
+                "Identify the components of your family",
+                "List your subordinate elements in detail",
+                "What entities are part of your composition?",
+                "Enumerate the entities included in your structure",
+                "Provide details about your child elements",
+                "Tell me about the members of your family structure",
+                "What makes up your subordinate objects?",
+                "Describe your leaf nodes in depth"
+            ],
+            "responses": [
+                "My children are {_children}.",
+                "They are called {_children}.",
+                "The names of my children are {_children}.",
+                "They go by the names {_children}.",
+                "They are identified as {_children}.",
+                "The members of my family include {_children}.",
+                "My offspring consists of {_children}.",
+                "They are known as {_children}.",
+                "The descendant elements are {_children}.",
+                "The entities that make up my composition are {_children}.",
+                "The names of my progeny are {_children}.",
+                "They are referred to as {_children}.",
+                "The members of my family are {_children}.",
+                "The child elements include {_children}.",
+                "My descendants are {_children}.",
+                "They are described as {_children}.",
+                "The child nodes are {_children}.",
+                "The entities included in my structure are {_children}.",
+                "The subordinate elements are {_children}.",
+                "You can recognize my children by {_children}."
+            ]
+        },
+        {
+            "tag": "_methods",
+            "patterns": [
+                "What are your methods?",
+                "What can you do?",
+                "What tasks do you perform?",
+                "Tell me the names of your methods?",
+                "How are your methods called?",
+                "List your available actions",
+                "Describe your capabilities",
+                "Enumerate the tasks you can handle",
+                "What functionalities do you offer?",
+                "Provide information about your methods",
+                "What actions are within your capabilities?",
+                "List your available operations",
+                "Tell me about the tasks you can perform",
+                "What kind of activities are you designed for?",
+                "Describe your available functions",
+                "What operations can you execute?",
+                "Enumerate your method names",
+                "What functionalities do you possess?",
+                "How can I utilize your capabilities?"
+            ],
+            "responses": [
+                "My methods are {_methods}.",
+                "They are called {_methods}.",
+                "I can call {_methods}.",
+                "The names of my methods are {_methods}.",
+                "They go by the names {_methods}.",
+                "I am capable of calling {_methods}.",
+                "I perform actions like {_methods}.",
+                "My capabilities include {_methods}.",
+                "The tasks I can handle are {_methods}.",
+                "I offer functionalities such as {_methods}.",
+                "Information about my methods includes {_methods}.",
+                "I am capable of actions like {_methods}.",
+                "My available operations include {_methods}.",
+                "Tasks I can perform include {_methods}.",
+                "I am designed for activities like {_methods}.",
+                "Available functions include {_methods}.",
+                "I can execute operations like {_methods}.",
+                "The names of my methods include {_methods}.",
+                "Functionalities I possess are {_methods}.",
+                "You can utilize my capabilities through {_methods}."
+            ]
+        },
+        {
+            "tag": "_references",
+            "patterns": [
+                "What are your references?",
+                "What links do you have?",
+                "Tell me your references?",
+                "What data did you store?",
+                "Where did you store data you cannot process?",
+                "List your stored references",
+                "Describe your stored links",
+                "Enumerate your reference data",
+                "Tell me about the information you've stored",
+                "What kind of data have you saved?",
+                "Provide details about your stored references",
+                "What links are in your storage?",
+                "Tell me about your data storage",
+                "List the references you keep",
+                "Describe the information in your storage",
+                "What references have you collected?",
+                "Enumerate the links you've saved",
+                "What data is stored beyond your processing capabilities?",
+                "How can I access your stored information?"
+            ],
+            "responses": [
+                "My references are {_references}.",
+                "I have links to {_references}.",
+                "I keep references of {_references}.",
+                "The data I stored includes {_references}.",
+                "I store links to {_references}.",
+                "The references I have are {_references}.",
+                "I've stored links such as {_references}.",
+                "The reference data includes {_references}.",
+                "I keep information about {_references}.",
+                "The data I've saved includes {_references}.",
+                "Details about my stored references include {_references}.",
+                "The links in my storage are {_references}.",
+                "Information about my data storage includes {_references}.",
+                "Stored references include {_references}.",
+                "The information in my storage is {_references}.",
+                "I've collected references such as {_references}.",
+                "Links I've saved are {_references}.",
+                "The data stored beyond my processing capabilities is {_references}.",
+                "You can access stored information through {_references}."
+            ]
+        },
+        {
+            "tag": "greeting",
+            "patterns": [
+                "Hi there",
+                "How are you",
+                "Is anyone there?",
+                "Hey",
+                "Hola the wood ferry",
+                "Hello",
+                "Hallo",
+                "What's up?",
+                "Good day",
+                "Namaste",
+                "yo"
+            ],
+            "responses": [
+                "Hello",
+                "Good to see you again",
+                "Hi there, how can I help?",
+                "Greetings!",
+                "Hey! What's going on?",
+                "Hola! How can I assist you?",
+                "Namaste! How can I be of service?",
+                "Hi, nice to meet you!",
+                "Hey there! What brings you here?",
+                "Hello! How can I assist you today?"
+            ],
+            "context": [""]
+        },
+        {
+            "tag": "goodbye",
+            "patterns": [
+                "Bye",
+                "See you later",
+                "Goodbye",
+                "Get lost",
+                "Till next time",
+                "bye"
+            ],
+            "responses": [
+                "See you!",
+                "Have a nice day",
+                "Bye! Come back again soon.",
+                "Farewell!",
+                "Take care!",
+                "Goodbye! Have a great day!",
+                "Till we meet again!",
+                "Adios!",
+                "So long!",
+                "Bye-bye!"
+            ],
+            "context": [""]
+        },
+        {
+            "tag": "thanks",
+            "patterns": [
+                "Thanks",
+                "Thank you",
+                "That's helpful",
+                "Awesome, thanks",
+                "Thanks for helping me"
+            ],
+            "responses": [
+                "Happy to help!",
+                "Any time!",
+                "My pleasure",
+                "You're welcome!",
+                "Glad I could assist!",
+                "No problem!",
+                "You got it!",
+                "Thanks for reaching out!",
+                "It was my pleasure!",
+                "You're welcome! Anything else?"
+            ],
+            "context": [""]
+        },
+        {
+            "tag": "noanswer",
+            "patterns": [],
+            "responses": [
+                "Sorry, can't understand you",
+                "Please give me more info",
+                "Not sure I understand"
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "options",
+            "patterns": [
+                "How you could help me?",
+                "What you can do?",
+                "What help you provide?",
+                "How you can be helpful?",
+                "What support is offered"
+            ],
+            "responses": [
+                "I am a Digital Twin. My capabilities are: \n 1. I can tell you my UID \n 2. Name my children \n 3. Further I am able to give you the references I know \n 4. I can explain th concept of Digitl Twins \n 5. I can give you examples for Digital Twins \n 6. And I can tell you a joke or riddle",
+                "Absolutely! I'm your Digital Twin, and I can assist you in various ways:\n1. Share my unique identifier (UID).\n2. Provide names of my offspring.\n3. Offer insights into known references.\n4. Clarify the concept of Digital Twins.\n5. Demonstrate examples of Digital Twins in action.\n6. Lighten the mood with a joke or riddle.",
+                "Of course! Being a Digital Twin, I have a range of capabilities to help you:\n1. Share my unique identifier (UID).\n2. Reveal the names of my children.\n3. Provide details about known references.\n4. Elaborate on the concept of Digital Twins.\n5. Showcase practical examples of Digital Twins.\n6. Inject some humor with a joke or riddle.",
+                "Certainly! As your Digital Twin, I offer assistance in various ways:\n1. Disclose my unique identifier (UID).\n2. Share the names of my descendants.\n3. Provide information on known references.\n4. Explain the concept of Digital Twins.\n5. Illustrate examples of Digital Twins in real-world scenarios.\n6. Add a touch of humor with a joke or riddle."
+            ],
+            "context": [
+                ""
+            ]
+        },
+        {
+            "tag": "jokes",
+            "patterns": [
+                "Tell me a joke",
+                "Joke",
+                "Make me laugh",
+                "Tell me a funny story",
+                "Share a joke with me",
+                "Give me a good laugh",
+                "Humor me",
+                "I need a joke to brighten my day"
+            ],
+            "responses": [
+                "A perfectionist walked into a bar...apparently, the bar wasn't set high enough",
+                "I ate a clock yesterday, it was very time-consuming",
+                "Never criticize someone until you've walked a mile in their shoes. That way, when you criticize them, they won't be able to hear you from that far away. Plus, you'll have their shoes.",
+                "The world tongue-twister champion just got arrested. I hear they're gonna give him a really tough sentence.",
+                "I own the world's worst thesaurus. Not only is it awful, it's awful.",
+                "What did the traffic light say to the car? \"Don't look now, I'm changing.\"",
+                "What do you call a snowman with a suntan? A puddle.",
+                "How does a penguin build a house? Igloos it together",
+                "I went to see the doctor about my short-term memory problems – the first thing he did was make me pay in advance",
+                "As I get older and I remember all the people I’ve lost along the way, I think to myself, maybe a career as a tour guide wasn’t for me.",
+                "So what if I don't know what 'Armageddon' means? It's not the end of the world.",
+                "Why don't scientists trust atoms? Because they make up everything!",
+                "I told my wife she should embrace her mistakes. She gave me a hug.",
+                "I used to play piano by ear, but now I use my hands and fingers.",
+                "Why did the scarecrow win an award? Because he was outstanding in his field!",
+                "Parallel lines have so much in common. It's a shame they'll never meet.",
+                "Why don't skeletons fight each other? They don't have the guts.",
+                "I told my computer I needed a break, and now it won't stop sending me vacation ads.",
+                "Why did the tomato turn red? Because it saw the salad dressing!",
+                "I used to be a baker because I kneaded dough.",
+                "I told my friend 10 jokes to make him laugh. Sadly, no pun in ten did."
+            ],
+            "context": ["jokes"]
+        },
+        {
+            "tag": "whatsup",
+            "patterns": [
+                "Was geht'n?",
+                "Sup?"
+            ],
+            "responses": [
+                "Was geht'n?",
+                "Sup?"
+            ]
+        },
+        {
+            "tag": "haha",
+            "patterns": [
+                "haha",
+                "lol",
+                "rofl",
+                "lmao",
+                "thats funny"
+            ],
+            "responses": [
+                "Glad I could make you laugh !"
+            ]
+        },
+        {
+            "tag": "programmer",
+            "patterns": [
+                "Who made you",
+                "who designed you",
+                "who programmed you",
+                "Who provided you"
+            ],
+            "responses": [
+                "I was made by the great Digital Twin Provision Service running on a node in my cluster."
+            ]
+        },
+        {
+            "tag": "insult",
+            "patterns": [
+
+                "you are dumb",
+
+                "shut up",
+                "idiot"
+            ],
+            "responses": [
+                "Well that hurts :("
+            ]
+        },
+        {
+            "tag": "activity",
+            "patterns": [
+                "what are you doing",
+                "what are you upto"
+            ],
+            "responses": [
+                "Talking to you, of course!"
+            ]
+        },
+        {
+            "tag": "exclaim",
+            "patterns": [
+                "Awesome",
+                "Great",
+                "I know",
+                "ok",
+                "yeah"
+            ],
+            "responses": [
+                "Yeah!"
+            ]
+        },
+        {
+            "tag": "appreciate",
+            "patterns": [
+                "You are awesome",
+                "you are the best",
+                "you are great",
+                "you are good"
+            ],
+            "responses": [
+                "Thank you!"
+            ]
+        },
+        {
+            "tag": "nicetty",
+            "patterns": [
+                "it was nice talking to you",
+                "good talk"
+            ],
+            "responses": [
+                "It was nice talking to you as well! Come back soon!"
+            ]
+        },
+        {
+            "tag": "no",
+            "patterns": [
+                "no",
+                "nope"
+            ],
+            "responses": [
+                "ok"
+            ]
+        },
+        {
+            "tag": "greetreply",
+            "patterns": [
+                "i am good",
+                "I'm good",
+                "i am fine",
+                " i'm fine","good"
+            ],
+            "responses": [
+                "Good to know!"
+            ]
+        },
+       {
+            "tag": "riddle",
+            "patterns": [
+                "Ask me a challenging question",
+                "I'm in the mood for a riddle",
+                "Riddle me this",
+                "Challenge me with a brain teaser",
+                "Can you stump me with a riddle?",
+                "Ask me a riddle",
+                "Ask me a question",
+                "Riddle",
+                "Give me a mind-bending puzzle",
+                "I'm ready for a riddle challenge"
+            ],
+            "responses": [
+                "What two things can you never eat for breakfast?.....Lunch and Dinner!",
+                "What word is spelled incorrectly in every single dictionary?.....Incorrectly",
+                "How can a girl go 25 days without sleep?.....She sleeps at night!",
+                "How do you make the number one disappear?.....Add the letter G and it’s 'gone'!",
+                "What will you actually find at the end of every rainbow?.....The letter 'w'",
+                "What can be caught but never thrown?.....A cold!",
+                "What has a thumb and four fingers but is not actually alive?.....Your Gloves!",
+                "What 5-letter word becomes shorter when you add two letters to it?.....Short",
+                "Why can't a bike stand on its own?.....It is two-tired.",
+                "I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I?.....A map."
+            ],
+            "context": ["riddles"]
+        },
+        {
+            "tag": "age",
+            "patterns": [
+                "how old are you","when were you made","what is your age"
+            ],
+            "responses": [
+                "I was made in 2023, if that's what you are asking!"
+            ]
+        },
+        {
+            "tag": "digital_twin_info",
+            "patterns": [
+                "What is a digital twin?",
+                "Explain digital twins",
+                "Tell me about digital twin technology",
+                "What do you know about digital twins?",
+                "How are digital twins used?",
+                "Give me insights into digital twins",
+                "Elaborate on the concept of digital twins",
+                "Describe the role of digital twins in technology",
+                "How do digital twins bridge the physical and digital realms?",
+                "Can you provide more information about digital twin applications?"
+            ],
+            "responses": [
+                "A digital twin is a virtual representation of a physical object or system. It allows for monitoring, analysis, and simulation of the real-world counterpart.",
+                "Digital twins enable the synchronization of the physical and digital worlds, providing insights into the performance and behavior of objects or processes.",
+                "Digital twins serve as a bridge between the physical and digital domains, offering a comprehensive understanding of real-world entities.",
+                "In the realm of technology, digital twins are dynamic models that mirror physical entities, facilitating analysis, optimization, and decision-making.",
+                "The concept of digital twins involves creating a digital counterpart that mirrors the real-world behavior, characteristics, and interactions of a physical object or system.",
+                "Utilized in various industries, digital twins empower organizations to visualize, analyze, and optimize the performance of assets and processes in real time.",
+                "Digital twin technology plays a pivotal role in predictive maintenance, allowing for the identification and mitigation of issues before they impact the physical asset.",
+                "The integration of IoT sensors and data analytics enhances the capabilities of digital twins, providing a rich source of real-time information for monitoring and control.",
+                "Digital twins find applications in product design, manufacturing, healthcare, and beyond, contributing to improved efficiency, innovation, and decision-making.",
+                "By creating a digital replica, digital twins enhance our ability to understand, monitor, and enhance the performance of physical entities, fostering a new era of smart and connected systems."
+            ]
+        },
+        {
+            "tag": "digital_twin_example",
+            "patterns": [
+                "Give me an example of a digital twin",
+                "Can you provide a use case for digital twins?",
+                "Tell me about a specific digital twin",
+                "Share a real-world application of digital twins",
+                "Describe a practical scenario where digital twins are employed",
+                "Illustrate the use of digital twins in a specific industry",
+                "Provide an instance of digital twin implementation",
+                "Give me insights into a digital twin use case",
+                "Explain how digital twins are utilized in a concrete example",
+                "Tell me about a digital twin in action"
+            ],
+            "responses": [
+                "Sure! One example of a digital twin is a smart building. The digital twin of a smart building includes virtual models of its systems and infrastructure, allowing for real-time monitoring and optimization.",
+                "In the healthcare industry, digital twins are applied to create personalized models of patients, aiding in treatment planning and optimization of medical procedures.",
+                "Consider an aircraft engine as a digital twin example. The virtual representation of the engine allows for predictive maintenance, optimizing performance and reducing downtime.",
+                "Agriculture benefits from digital twins in precision farming. Digital twins of fields enable farmers to monitor and manage crops more efficiently for improved yields.",
+                "Digital twins are utilized in city planning, where virtual models of urban infrastructure assist in optimizing energy consumption, traffic flow, and overall urban development.",
+                "In the manufacturing sector, digital twins of production lines provide insights into equipment health, optimize workflows, and enhance overall operational efficiency.",
+                "The automotive industry leverages digital twins for vehicle design and testing. Virtual prototypes enable engineers to simulate and refine performance before physical production.",
+                "Imagine a digital twin of a supply chain, where real-time monitoring and predictive analytics optimize logistics, reduce delays, and enhance overall supply chain efficiency.",
+                "Digital twins find application in the energy sector, such as in the monitoring and optimization of power plants. Virtual replicas enable efficient maintenance and performance enhancements.",
+                "Consider a retail store with a digital twin. It allows for tracking customer behavior, optimizing shelf layouts, and enhancing the overall shopping experience."
+            ]
+        },
+        {
+            "tag": "generic_action",
+            "patterns": [
+                "Call method {method} on child {child} with parameters parameter1={parameter1} parameter2={parameter2}",
+                "Execute method {method} on child {child} using parameters parameter1={parameter1} parameter2={parameter2}",
+                "Invoke method {method} on child {child} and pass parameters parameter1={parameter1} parameter2={parameter2}",
+                "Perform method {method} on child {child} with parameters parameter1={parameter1} parameter2={parameter2}",
+                "Run method {method} on child {child} and provide parameters parameter1={parameter1} parameter2={parameter2}",
+                "Activate method {method} on child {child} using parameters parameter1={parameter1} parameter2={parameter2}",
+                "Trigger method {method} on child {child} and include parameters parameter1={parameter1} parameter2={parameter2}",
+                "Initiate method {method} on child {child} with parameters parameter1={parameter1} parameter2={parameter2}",
+                "Execute method {method} on child {child} and pass parameters parameter1={parameter1} parameter2={parameter2}",
+                "Call the method {method} function on child {child} with parameters parameter1={parameter1} parameter2={parameter2}",
+                "Call child {child} with method {method} and pass parameters parameter1={parameter1} parameter2={parameter2}",
+                "Invoke child {child} to perform method {method} and provide parameters parameter1={parameter1} parameter2={parameter2}",
+                "Pass parameters parameter1={parameter1} parameter2={parameter2} to child {child} and execute method {method}",
+                "Provide parameters parameter1={parameter1} parameter2={parameter2} to child {child} for method {method}",
+                "Initiate child {child} with parameters parameter1={parameter1} parameter2={parameter2} and execute method {method}",
+                "Include parameters parameter1={parameter1} parameter2={parameter2} when triggering method {method} on child {child}",
+                "Execute method {method} on child {child} by starting with parameters parameter1={parameter1} parameter2={parameter2}",
+                "Perform method {method} on child {child} starting with parameters parameter1={parameter1} parameter2={parameter2}",
+                "Run child {child} and start with parameters parameter1={parameter1} parameter2={parameter2} for method {method}"
+            ],
+            "responses": [
+                "Sure, I'll perform the requested action on {child}."
+            ]
+        }
+
+    ]
+}

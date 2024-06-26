@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dt-db-ingress
+  namespace: dt
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/enable-rewrite-log: "true"
+
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /dt-db(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: dt-db-svc
+            port:
+              number: 27017

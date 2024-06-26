@@ -1,0 +1,57 @@
+{
+  "get_action": {
+    "type": "function",
+    "function": {
+      "name": "get_action",
+      "description": "Function get_action",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "scanner_action": {
+    "type": "function",
+    "function": {
+      "name": "scanner_action",
+      "description": "Function scanner_action",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "description": "The method parameter."
+          },
+          "endpoint": {
+            "type": "string",
+            "description": "The endpoint parameter."
+          }
+        },
+        "required": [
+          "method",
+          "endpoint"
+        ]
+      }
+    }
+  },
+  "publish_actions": {
+    "type": "function",
+    "function": {
+      "name": "publish_actions",
+      "description": "Function publish_actions",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "The action parameter."
+          }
+        },
+        "required": [
+          "action"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cs
+  namespace: dt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cs
+  template:
+    metadata:
+      labels:
+        app: cs
+    spec:
+      containers:
+      - name: cs
+        image: mongo:latest
+        env:
+          - name: "MONGO_INITDB_ROOT_USERNAME"
+            value: "dt"
+          - name: "MONGO_INITDB_ROOT_PASSWORD"
+            value: "dt"
+          - name: "MONGO_INITDB_DATABASE"
+            value: "confTwins"
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+          - name: config-volume
+            mountPath: /docker-entrypoint-initdb.d
+          - name: data
+            mountPath: /data/db
+      volumes:
+        - name: config-volume
+          configMap:
+            name: twin-cs-configmap
+        - name: data
+          persistentVolumeClaim:
+            claimName: cs-data
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: cs-svc
+    namespace: dt
+spec:
+    ports:
+      - name: cs
+        port: 27018
+        targetPort: 27017
+    selector:
+        app: cs
+    type: ClusterIP

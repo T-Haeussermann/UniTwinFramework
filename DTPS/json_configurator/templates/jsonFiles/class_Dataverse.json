@@ -1,0 +1,10 @@
+{
+    "_id": "class_Dataverse",
+    "_BASE_URL": "_BASE_URL",
+    "api_token": "api_token",
+    "mail": "mail",
+    "_subscribers": {
+      },
+    "_subscriptions": {
+    }
+}

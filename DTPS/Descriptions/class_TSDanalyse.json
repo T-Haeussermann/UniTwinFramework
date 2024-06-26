@@ -1,0 +1,83 @@
+{
+  "getData": {
+    "type": "function",
+    "function": {
+      "name": "getData",
+      "description": "Function getData",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "initialization_time": {
+            "type": "string",
+            "description": "The initialization_time parameter."
+          }
+        },
+        "required": [
+          "initialization_time"
+        ]
+      }
+    }
+  },
+  "evaluate": {
+    "type": "function",
+    "function": {
+      "name": "evaluate",
+      "description": "Function evaluate",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "initialize": {
+    "type": "function",
+    "function": {
+      "name": "initialize",
+      "description": "Function initialize",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "initialization_time": {
+            "type": "string",
+            "description": "The initialization_time parameter."
+          }
+        },
+        "required": [
+          "initialization_time"
+        ]
+      }
+    }
+  },
+  "setBounds": {
+    "type": "function",
+    "function": {
+      "name": "setBounds",
+      "description": "Function setBounds",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "The description parameter."
+          }
+        },
+        "required": [
+          "description"
+        ]
+      }
+    }
+  },
+  "run": {
+    "type": "function",
+    "function": {
+      "name": "run",
+      "description": "Function run",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  }
+}

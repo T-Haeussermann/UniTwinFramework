@@ -1,0 +1,64 @@
+{
+  "run": {
+    "type": "function",
+    "function": {
+      "name": "run",
+      "description": "Function run",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "createDir": {
+    "type": "function",
+    "function": {
+      "name": "createDir",
+      "description": "Function createDir",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "on_any_event": {
+    "type": "function",
+    "function": {
+      "name": "on_any_event",
+      "description": "Function on_any_event",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "event": {
+            "type": "string",
+            "description": "The event parameter."
+          }
+        },
+        "required": [
+          "event"
+        ]
+      }
+    }
+  },
+  "on_created": {
+    "type": "function",
+    "function": {
+      "name": "on_created",
+      "description": "Function on_created",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "event": {
+            "type": "string",
+            "description": "The event parameter."
+          }
+        },
+        "required": [
+          "event"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dtps
+  namespace: dt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dtps
+  template:
+    metadata:
+      labels:
+        app: dtps
+    spec:
+      serviceAccountName: dtps-service-account
+      automountServiceAccountToken: true
+      containers:
+      - name: dtps
+        image: registry_ip:registry_port/dtps:1.0
+        imagePullPolicy: Always
+        env:
+          - name: "KUBECONFIG"
+            value: "/etc/kubernetes/admin.conf"
+          - name: "DISPLAY"
+            value: "display"
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+          - name: kube-volume
+            mountPath: /etc/kubernetes
+      volumes:
+        - name: kube-volume
+          hostPath:
+            path: /etc/kubernetes
+            type: DirectoryOrCreate
+      imagePullSecrets:
+        - name: registry-auth
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: dtps-svc
+    namespace: dt
+    labels:
+      app: dtps
+spec:
+    ports:
+      - name: dtps
+        port: 8000
+    type: ClusterIP
+    selector:
+      app: dtps

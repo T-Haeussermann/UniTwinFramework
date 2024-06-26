@@ -1,0 +1,21 @@
+{
+  "run": {
+    "type": "function",
+    "function": {
+      "name": "describe",
+      "description": "Returns the value of a asked attribute.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "attribute": {
+            "type": "string",
+            "description": "The attribute to get the value from."
+          }
+        },
+        "required": [
+          "attribute"
+        ]
+      }
+    }
+  }
+}

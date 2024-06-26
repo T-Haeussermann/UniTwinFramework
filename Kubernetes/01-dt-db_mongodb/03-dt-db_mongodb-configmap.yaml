@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: twin-db-configmap
+  namespace: dt
+data:
+  init.sh: |
+    #!/bin/bash
+
+    mongosh admin -u dt -p dt --eval "use digitalTwins" --eval "db.createUser({ user: \"dt\", pwd: \"dt\",roles: [ { role: \"readWrite\", db: \"digitalTwins\" }]})"

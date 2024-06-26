@@ -1,0 +1,6 @@
+to enable the dataverse gui every node must perform the following steps
+
+install docker desktop
+install
+start https://sourceforge.net/projects/vcxsrv/
+follow instructions https://www.rickmakes.com/windows-subsystem-for-linux-2-installing-vcxrv-x-server/

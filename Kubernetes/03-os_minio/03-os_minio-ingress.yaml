@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: osc-ingress
+  namespace: dt
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$1 #$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+#    nginx.ingress.kubernetes.io/upstream-vhost: 10.1.1.250:9000
+    nginx.ingress.kubernetes.io/enable-rewrite-log: "true"
+
+# console on /osc/login
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /osc/(.*) #(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: osc-svc
+            port:
+              number: 9001

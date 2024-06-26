@@ -1,0 +1,27 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: unitwin
+  labels:
+    app: unitwin
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: unitwin
+  template:
+    metadata:
+      labels:
+        app: unitwin
+    spec:
+      containers:
+        - name: unitwin
+          image: unitwin:latest
+          imagePullPolicy: Never
+          env:
+            - name: uid
+              value: "63fef629bc9a31ef779e85db"
+          ports:
+            - name: web
+              containerPort: 7000

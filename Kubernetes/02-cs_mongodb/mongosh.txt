@@ -1,0 +1,4 @@
+kubectl create configmap twin-db-configmap --from-file=01-dt-db_mongodb/mongo-init.js
+
+
+mongosh admin -u dt -p dt --eval "use confTwins" --eval "db.createUser({ user: \"dt\", pwd: \"dt\",roles: [ { role: \"readWrite\", db: \"confTwins\" }]})"

@@ -1,0 +1,12 @@
+{
+    "_id": "class_MQTT",
+    "_username": "_username",
+    "_passwd": "_passwd",
+    "_host": "_host",
+    "_port": 1883,
+    "_topic_sub": ["Topic1", "Topic2", "Measurement"],
+    "_subscribers": {
+    },
+    "_subscriptions": {
+      }
+}

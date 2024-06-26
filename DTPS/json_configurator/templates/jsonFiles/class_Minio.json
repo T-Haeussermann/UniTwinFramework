@@ -1,0 +1,10 @@
+{
+    "_id": "class_Minio",
+    "_endpoint": "os-svc.dt.svc.cluster.local:9000",
+    "_access_key": "minio",
+    "_secret_key": "minio123",
+    "_subscribers": {
+    },
+    "_subscriptions": {
+      }
+}

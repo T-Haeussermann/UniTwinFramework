@@ -1,0 +1,17 @@
+fastapi==0.93.0
+influxdb_client==1.36.1
+minio==7.1.15
+pyDataverse==0.3.1
+pymongo==4.3.3
+statsmodels==0.13.5
+joblib==1.2.0
+matplotlib==3.7.1
+uvicorn==0.20.0
+watchdog==2.3.1
+Jinja2==3.1.2
+schedule==1.2.1
+
+
+
+
+

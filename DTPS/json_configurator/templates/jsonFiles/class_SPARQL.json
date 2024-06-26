@@ -1,0 +1,29 @@
+{
+    "_id": "class_GraphDB",
+    "url": "url",
+    "repository": "test",
+    "prefix": "PREFIX RDM: <http://www.semanticweb.org/tim/ontologies/2022/10/RDM#>",
+    "semantics": {
+                  "class": "Resource",
+                  "triples": {
+                              "offersProductionService": "DrillingService",
+                              "processToM": "Metal"
+                              },
+                  "objectproperties": [
+                                        {
+                                          "name": "minDiameterHoleResource",
+                                          "value": 5.0,
+                                          "type": "decimal"
+                                        },
+                                        {
+                                          "name": "maxDiameterHoleResource",
+                                          "value": 20.0,
+                                          "type": "decimal"
+                                        }
+                                      ]
+                  },
+    "_subscribers": {
+      },
+    "_subscriptions": {
+    }
+}

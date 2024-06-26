@@ -1,0 +1,83 @@
+{
+  "upload": {
+    "type": "function",
+    "function": {
+      "name": "upload",
+      "description": "Function upload",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name parameter."
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    }
+  },
+  "download": {
+    "type": "function",
+    "function": {
+      "name": "download",
+      "description": "Function download",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name parameter."
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    }
+  },
+  "server_file": {
+    "type": "function",
+    "function": {
+      "name": "server_file",
+      "description": "Function server_file",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name parameter."
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    }
+  },
+  "run": {
+    "type": "function",
+    "function": {
+      "name": "run",
+      "description": "Function run",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "newBucket": {
+    "type": "function",
+    "function": {
+      "name": "newBucket",
+      "description": "Function newBucket",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "method_MQTT": {
+    "type": "function",
+    "function": {
+      "name": "method_MQTT",
+      "description": "Function method_MQTT",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  }
+}

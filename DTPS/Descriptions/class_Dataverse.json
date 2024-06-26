@@ -1,0 +1,222 @@
+{
+  "run": {
+    "type": "function",
+    "function": {
+      "name": "run",
+      "description": "Function run",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "export": {
+    "type": "function",
+    "function": {
+      "name": "export",
+      "description": "Function export",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "zipfiles": {
+    "type": "function",
+    "function": {
+      "name": "zipfiles",
+      "description": "Function zipfiles",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "The filepath parameter."
+          }
+        },
+        "required": [
+          "filepath"
+        ]
+      }
+    }
+  },
+  "createdataverse": {
+    "type": "function",
+    "function": {
+      "name": "createdataverse",
+      "description": "Function createdataverse",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "api_token": {
+            "type": "string",
+            "description": "The api_token parameter."
+          },
+          "parent_dv": {
+            "type": "string",
+            "description": "The parent_dv parameter."
+          },
+          "titel": {
+            "type": "string",
+            "description": "The titel parameter."
+          },
+          "contactEmail": {
+            "type": "string",
+            "description": "The contactEmail parameter."
+          }
+        },
+        "required": [
+          "api_token",
+          "parent_dv",
+          "titel",
+          "contactEmail"
+        ]
+      }
+    }
+  },
+  "createdataset": {
+    "type": "function",
+    "function": {
+      "name": "createdataset",
+      "description": "Function createdataset",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "api_token": {
+            "type": "string",
+            "description": "The api_token parameter."
+          },
+          "dataverse": {
+            "type": "string",
+            "description": "The dataverse parameter."
+          },
+          "titel": {
+            "type": "string",
+            "description": "The titel parameter."
+          },
+          "author": {
+            "type": "string",
+            "description": "The author parameter."
+          },
+          "authorAffiliation": {
+            "type": "string",
+            "description": "The authorAffiliation parameter."
+          },
+          "mail": {
+            "type": "string",
+            "description": "The mail parameter."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description parameter."
+          },
+          "subject": {
+            "type": "string",
+            "description": "The subject parameter."
+          }
+        },
+        "required": [
+          "api_token",
+          "dataverse",
+          "titel",
+          "author",
+          "authorAffiliation",
+          "mail",
+          "description",
+          "subject"
+        ]
+      }
+    }
+  },
+  "uploaddatafile": {
+    "type": "function",
+    "function": {
+      "name": "uploaddatafile",
+      "description": "Function uploaddatafile",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "api_token": {
+            "type": "string",
+            "description": "The api_token parameter."
+          },
+          "filepath": {
+            "type": "string",
+            "description": "The filepath parameter."
+          },
+          "ds_pid": {
+            "type": "string",
+            "description": "The ds_pid parameter."
+          }
+        },
+        "required": [
+          "api_token",
+          "filepath",
+          "ds_pid"
+        ]
+      }
+    }
+  },
+  "listDataverses": {
+    "type": "function",
+    "function": {
+      "name": "listDataverses",
+      "description": "Function listDataverses",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "listDataverseContent": {
+    "type": "function",
+    "function": {
+      "name": "listDataverseContent",
+      "description": "Function listDataverseContent",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "dataverse_id": {
+            "type": "string",
+            "description": "The dataverse_id parameter."
+          },
+          "api_token": {
+            "type": "string",
+            "description": "The api_token parameter."
+          }
+        },
+        "required": [
+          "dataverse_id",
+          "api_token"
+        ]
+      }
+    }
+  },
+  "curl_dataset": {
+    "type": "function",
+    "function": {
+      "name": "curl_dataset",
+      "description": "Function curl_dataset",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "dataset_pid": {
+            "type": "string",
+            "description": "The dataset_pid parameter."
+          },
+          "api_token": {
+            "type": "string",
+            "description": "The api_token parameter."
+          }
+        },
+        "required": [
+          "dataset_pid",
+          "api_token"
+        ]
+      }
+    }
+  }
+}

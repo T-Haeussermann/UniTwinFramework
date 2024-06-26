@@ -1,0 +1,9 @@
+{
+    "_id": "class_TSexport",
+    "self.dbInstance": "class-Influxdb-I1",
+    "self.frequence": 10,
+    "_subscribers": {
+      },
+    "_subscriptions": {
+    }
+}

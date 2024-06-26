@@ -1,0 +1,57 @@
+{
+  "exportCSV": {
+    "type": "function",
+    "function": {
+      "name": "exportCSV",
+      "description": "Function exportCSV",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "exportCSVmanual": {
+    "type": "function",
+    "function": {
+      "name": "exportCSVmanual",
+      "description": "Function exportCSVmanual",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "timeSeconds": {
+            "type": "string",
+            "description": "The timeSeconds parameter."
+          }
+        },
+        "required": [
+          "timeSeconds"
+        ]
+      }
+    }
+  },
+  "cleanUP": {
+    "type": "function",
+    "function": {
+      "name": "cleanUP",
+      "description": "Function cleanUP",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "run": {
+    "type": "function",
+    "function": {
+      "name": "run",
+      "description": "Function run",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  }
+}

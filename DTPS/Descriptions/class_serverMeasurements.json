@@ -1,0 +1,14 @@
+{
+  "set_measurement_values": {
+    "type": "function",
+    "function": {
+      "name": "set_measurement_values",
+      "description": "Function set_measurement_values",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  }
+}

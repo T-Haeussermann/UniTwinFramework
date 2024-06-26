@@ -1,0 +1,28 @@
+kubectl create configmap twin-db-configmap --from-file=01-dt-db_mongodb/mongo-init.js
+
+
+mongosh --eval "use admin / db.auth("dt", "dt")"
+mongosh --eval "db.auth("dt", "dt")"
+mongosh --eval "use digitalTwins"
+mongosh --eval "db.createUser({ user: \"dt\", pwd: \"dt\",roles: [ { role: \"readWrite\", db: \"digitalTwins\" }]})"
+mongosh --eval "db.auth(dt, dt)"
+
+
+mongosh --username "dt" --password --authenticationDatabase dt--authenticationMechanism SCRAM-SHA-256
+
+
+mongosh --eval "use admin" --eval "db.auth("dt", "dt")" --eval "use digitalTwins" --eval "db.createUser({ user: \"dt\", pwd: \"dt\",roles: [ { role: \"readWrite\", db: \"digitalTwins\" }]})"
+
+mongosh --eval "use admin" \
+        --eval "db.auth("dt", "dt")"
+
+
+mongosh admin -u dt -p dt --eval "db.createUser({ user: \"dt\", pwd: \"dt\",roles: [ { role: \"readWrite\", db: \"digitalTwins\" }]})"
+
+
+db.getSiblingDB('dummydb').createUser({user: 'dummyuser', pwd: 'dummysecret', roles: ['readWrite']})"
+
+mongosh admin -u dt -p dt --eval "db.getSiblingDB("digitalTwins").createUser({ user: \"dt\", pwd: \"dt\",roles: [ { role: \"readWrite\", db: \"digitalTwins\" }]})"
+
+
+mongosh admin -u dt -p dt --eval "use digitalTwins" --eval "db.createUser({ user: \"dt\", pwd: \"dt\",roles: [ { role: \"readWrite\", db: \"digitalTwins\" }]})"

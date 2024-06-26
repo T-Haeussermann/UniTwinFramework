@@ -1,0 +1,101 @@
+{
+  "write": {
+    "type": "function",
+    "function": {
+      "name": "write",
+      "description": "Function write",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "bucket": {
+            "type": "string",
+            "description": "The bucket parameter."
+          },
+          "item": {
+            "type": "string",
+            "description": "The item parameter."
+          },
+          "value": {
+            "type": "string",
+            "description": "The value parameter."
+          },
+          "unit": {
+            "type": "string",
+            "description": "The unit parameter.",
+            "default": null
+          }
+        },
+        "required": [
+          "bucket",
+          "item",
+          "value"
+        ]
+      }
+    }
+  },
+  "new_Bucket": {
+    "type": "function",
+    "function": {
+      "name": "new_Bucket",
+      "description": "Function new_Bucket",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string",
+            "description": "The Name parameter."
+          }
+        },
+        "required": [
+          "Name"
+        ]
+      }
+    }
+  },
+  "run": {
+    "type": "function",
+    "function": {
+      "name": "run",
+      "description": "Function run",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "query": {
+    "type": "function",
+    "function": {
+      "name": "query",
+      "description": "Function query",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "bucket": {
+            "type": "string",
+            "description": "The bucket parameter."
+          },
+          "format": {
+            "type": "string",
+            "description": "The format parameter.",
+            "default": "data_frame"
+          },
+          "time": {
+            "type": "string",
+            "description": "The time parameter.",
+            "default": 10
+          },
+          "last": {
+            "type": "string",
+            "description": "The last parameter.",
+            "default": false
+          }
+        },
+        "required": [
+          "bucket"
+        ]
+      }
+    }
+  }
+}

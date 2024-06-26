@@ -1,0 +1,119 @@
+{
+  "on_connect": {
+    "type": "function",
+    "function": {
+      "name": "on_connect",
+      "description": "Function on_connect",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "client": {
+            "type": "string",
+            "description": "The client parameter."
+          },
+          "userdata": {
+            "type": "string",
+            "description": "The userdata parameter."
+          },
+          "flags": {
+            "type": "string",
+            "description": "The flags parameter."
+          },
+          "rc": {
+            "type": "string",
+            "description": "The rc parameter."
+          }
+        },
+        "required": [
+          "client",
+          "userdata",
+          "flags",
+          "rc"
+        ]
+      }
+    }
+  },
+  "publish": {
+    "type": "function",
+    "function": {
+      "name": "publish",
+      "description": "Function publish",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "Topic": {
+            "type": "string",
+            "description": "The Topic to publish the Payload in."
+          },
+          "Payload": {
+            "type": "string",
+            "description": "The Payload to publish in the Topic."
+          },
+          "Qos": {
+            "type": "integer",
+            "description": "The Qos to send the Payload with.",
+            "default": 0
+          }
+        },
+        "required": [
+          "Topic",
+          "Payload",
+          "Qos"
+        ]
+      }
+    }
+  },
+  "on_message": {
+    "type": "function",
+    "function": {
+      "name": "on_message",
+      "description": "Function on_message",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "client": {
+            "type": "string",
+            "description": "The client parameter."
+          },
+          "userdata": {
+            "type": "string",
+            "description": "The userdata parameter."
+          },
+          "msg": {
+            "type": "string",
+            "description": "The msg parameter."
+          }
+        },
+        "required": [
+          "client",
+          "userdata",
+          "msg"
+        ]
+      }
+    }
+  },
+  "run": {
+    "type": "function",
+    "function": {
+      "name": "run",
+      "description": "Function run",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "operation": {
+    "type": "function",
+    "function": {
+      "name": "operation",
+      "description": "Function operation",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  }
+}

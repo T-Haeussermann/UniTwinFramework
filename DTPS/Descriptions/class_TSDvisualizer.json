@@ -1,0 +1,212 @@
+{
+  "getData": {
+    "type": "function",
+    "function": {
+      "name": "getData",
+      "description": "Function getData",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "initialization_time": {
+            "type": "string",
+            "description": "The initialization_time parameter."
+          }
+        },
+        "required": [
+          "initialization_time"
+        ]
+      }
+    }
+  },
+  "getLast": {
+    "type": "function",
+    "function": {
+      "name": "getLast",
+      "description": "Function getLast",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "sensor": {
+            "type": "string",
+            "description": "The sensor parameter."
+          }
+        },
+        "required": [
+          "sensor"
+        ]
+      }
+    }
+  },
+  "createModel": {
+    "type": "function",
+    "function": {
+      "name": "createModel",
+      "description": "Function createModel",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "sensor": {
+            "type": "string",
+            "description": "The sensor parameter."
+          },
+          "data": {
+            "type": "string",
+            "description": "The data parameter."
+          }
+        },
+        "required": [
+          "sensor",
+          "data"
+        ]
+      }
+    }
+  },
+  "loadModel": {
+    "type": "function",
+    "function": {
+      "name": "loadModel",
+      "description": "Function loadModel",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "sensor": {
+            "type": "string",
+            "description": "The sensor parameter."
+          }
+        },
+        "required": [
+          "sensor"
+        ]
+      }
+    }
+  },
+  "forcast": {
+    "type": "function",
+    "function": {
+      "name": "forcast",
+      "description": "Function forcast",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "sensor": {
+            "type": "string",
+            "description": "The sensor parameter."
+          }
+        },
+        "required": [
+          "sensor"
+        ]
+      }
+    }
+  },
+  "predict": {
+    "type": "function",
+    "function": {
+      "name": "predict",
+      "description": "Function predict",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "sensor": {
+            "type": "string",
+            "description": "The sensor parameter.",
+            "default": null
+          },
+          "plot": {
+            "type": "string",
+            "description": "The plot parameter.",
+            "default": false
+          }
+        },
+        "required": []
+      }
+    }
+  },
+  "plot": {
+    "type": "function",
+    "function": {
+      "name": "plot",
+      "description": "Function plot",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "sensor": {
+            "type": "string",
+            "description": "The sensor parameter."
+          },
+          "ts_shifted": {
+            "type": "string",
+            "description": "The ts_shifted parameter."
+          },
+          "new_x": {
+            "type": "string",
+            "description": "The new_x parameter."
+          },
+          "point": {
+            "type": "string",
+            "description": "The point parameter."
+          },
+          "ts_std": {
+            "type": "string",
+            "description": "The ts_std parameter."
+          },
+          "corr": {
+            "type": "string",
+            "description": "The corr parameter."
+          }
+        },
+        "required": [
+          "sensor",
+          "ts_shifted",
+          "new_x",
+          "point",
+          "ts_std",
+          "corr"
+        ]
+      }
+    }
+  },
+  "initialize": {
+    "type": "function",
+    "function": {
+      "name": "initialize",
+      "description": "Function initialize",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "initialization_time": {
+            "type": "string",
+            "description": "The initialization_time parameter."
+          }
+        },
+        "required": [
+          "initialization_time"
+        ]
+      }
+    }
+  },
+  "initializeTSDanalyse": {
+    "type": "function",
+    "function": {
+      "name": "initializeTSDanalyse",
+      "description": "Function initializeTSDanalyse",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "run": {
+    "type": "function",
+    "function": {
+      "name": "run",
+      "description": "Function run",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  }
+}

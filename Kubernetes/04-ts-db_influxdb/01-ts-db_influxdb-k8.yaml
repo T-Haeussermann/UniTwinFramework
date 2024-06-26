@@ -1,0 +1,86 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ts-db-pv
+  namespace: dt
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /mnt/data/influxdb
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ts-db-pvc
+  namespace: dt
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    labels:
+        app: ts-db
+    name: ts-db
+    namespace: dt
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: ts-db
+    template:
+        metadata:
+            labels:
+                app: ts-db
+        spec:
+            containers:
+              - image: influxdb:2.0.6
+                name: ts-db
+                env:
+                  - name: "DOCKER_INFLUXDB_INIT_MODE"
+                    value: "setup"
+                  - name: "DOCKER_INFLUXDB_INIT_USERNAME"
+                    value: "user"
+                  - name: "DOCKER_INFLUXDB_INIT_PASSWORD"
+                    value: "password"
+                  - name: "DOCKER_INFLUXDB_INIT_ORG"
+                    value: "unitwin"
+                  - name: "DOCKER_INFLUXDB_INIT_BUCKET"
+                    value: "bucket"
+                  - name: "DOCKER_INFLUXDB_INIT_ADMIN_TOKEN"
+                    value: "token"
+                ports:
+                  - containerPort: 8086
+                    name: ts-db
+                volumeMounts:
+                  - mountPath: /var/lib/influxdb2
+                    name: data
+            volumes:
+              - name: data
+                hostPath:
+                  path: /etc/influxdb2
+                  type: DirectoryOrCreate
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: ts-db-svc
+    namespace: dt
+spec:
+    ports:
+      - name: ts-db-svc
+        port: 8086
+        targetPort: 8086
+    selector:
+        app: ts-db
+    type: NodePort

@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: unitwin-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: "/unitwin"
+        pathType: Prefix
+        backend:
+          service:
+            name: unitwin
+            port:
+              name: web

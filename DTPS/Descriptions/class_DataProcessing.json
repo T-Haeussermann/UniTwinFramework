@@ -1,0 +1,14 @@
+{
+  "process": {
+    "type": "function",
+    "function": {
+      "name": "process",
+      "description": "Function process",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  }
+}

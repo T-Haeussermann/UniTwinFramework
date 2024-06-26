@@ -1,0 +1,33 @@
+{
+  "operation": {
+    "type": "function",
+    "function": {
+      "name": "operation",
+      "description": "Function operation",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "display": {
+    "type": "function",
+    "function": {
+      "name": "display",
+      "description": "Function display",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "description": "The input parameter."
+          }
+        },
+        "required": [
+          "input"
+        ]
+      }
+    }
+  }
+}

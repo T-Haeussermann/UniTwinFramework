@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatmodelprovider
+  namespace: dt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chatmodelprovider
+  template:
+    metadata:
+      labels:
+        app: chatmodelprovider
+    spec:
+      containers:
+      - name: dtps
+        image: registry_ip:registry_port/chatmodelprovider:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+      imagePullSecrets:
+        - name: registry-auth
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: chatmodelprovider-svc
+    namespace: dt
+    labels:
+      app: chatmodelprovider
+spec:
+    ports:
+      - name: chatmodelprovider
+        port: 5000
+    type: ClusterIP
+    selector:
+      app: chatmodelprovider
