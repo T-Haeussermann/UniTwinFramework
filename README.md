@@ -44,7 +44,7 @@ python3 Scripts/apply.py
 
 ## Usage
 1. Create the configuration for your required Digital Twin
-- Use the JSON Builder for convenience. It is serverd under: [http://0.0.0.0/dtps/](http://0.0.0.0/dtps/)?????????
+- Use the JSON Builder for convenience. It is serverd under: [http://0.0.0.0:32000/dtps/](http://0.0.0.0:32000/dtps/)
 - add and remove classes for needed functionalities in the class section
 - customize class instances in the JSON Output section
 - Publish Subscribe mechanism can be added to the classes.\
@@ -53,14 +53,14 @@ python3 Scripts/apply.py
 - _subscriptions: subscribes class instance to other class instance\
   Key = name of publisher class instance, value = subscriber class instances subscription method
 2. Deploy the Digital Twin to the Cluster\
-a) Use DTPS Swagger UI under [DTPS](http://0.0.0.0/dtps/docs#)?????????\
+a) Use DTPS Swagger UI under [DTPS](http://0.0.0.0:32000/dtps/docs#)\
    Use method createTwin\
 b) curl -X 'POST' \
-  'http://141.19.44.18:8181/dtps/createTwin?conf={YourConfig}&version=1.0&assignNode=false' \
+  'http://0.0.0.0:32000/dtps/createTwin?conf={YourConfig}&version=1.0&assignNode=false' \
   -H 'accept: application/json' \
   -d ''
-3. Interact with your Digital Twins API Endpoints under: [http://0.0.0.0/{DigitalTwinsUID}/docs#](http://0.0.0.0/{DigitalTwinsUID}/docs#)
-4. Use the chat interface under [http://0.0.0.0/{DigitalTwinsUID}/](http://0.0.0.0/{DigitalTwinsUID}/chat) to get attributes and run commands
+3. Interact with your Digital Twins API Endpoints under: [http://0.0.0.0:32000/{DigitalTwinsUID}/docs#](http://0.0.0.0/{DigitalTwinsUID}/docs#)
+4. Use the chat interface under [http://0.0.0.0:32000/{DigitalTwinsUID}/](http://0.0.0.0/{DigitalTwinsUID}/chat) to get attributes and run commands
 - examples: What is your uid? What are your children? Use child class_MQTT-I1 and run method publish with parameters Topic=Test, Payload=Test
 
 ## Customization
