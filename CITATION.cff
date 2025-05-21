@@ -1,6 +1,5 @@
 cff-version: 1.2.0
 message: "If you use this framework or build upon it, please cite the following article:"
-type: article
 title: "UniTwin: Pushing Universal Digital Twins Into the Clouds Through Reconfigurable Container Environments"
 authors:
   - family-names: Häußermann
