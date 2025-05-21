@@ -22,4 +22,4 @@ ADD Chat-Model-Provider .
 
 # Run the application
 ENTRYPOINT ["python"]
-CMD ["modell_Provider.py"]
+CMD ["app.py"]

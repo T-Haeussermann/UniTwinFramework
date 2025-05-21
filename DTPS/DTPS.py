@@ -1,11 +1,13 @@
 import json
 import os.path
 import io
+import time
 import zipfile
 import pickle
 import requests
 from fastapi import FastAPI, BackgroundTasks, Response
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
 import uvicorn
 from digitwin import DigitalTwin, DigitalTwinSchema
 from serializer import MongoDTSerializer
@@ -31,31 +33,43 @@ def providePaths(name):
     files = {"class": {"path": modulepath, "name": module}}
 
     # get description path
-    try:
-        description = name + ".json"
-        descriptionpath = "Descriptions/" + description
+    description = name + ".json"
+    descriptionpath = "Descriptions/" + description
+    if os.path.exists(descriptionpath):
         files["description"] = {"path": descriptionpath, "name": module}
-
-    except:
+    else:
         print("No description found for this module.")
+
+    # check for required additional files
+    with open("Modules/additional_files.json", "r") as f:
+        additional_files = json.load(f)
+        if name in additional_files:
+            additional_files = additional_files[name]
+            files["additional_files"] = []
+            for additional_file in additional_files:
+                files["additional_files"].append({"path": additional_file, "name": module})
 
     return files
 
 def zipfiles(filenames):
     zip_filename = "%s.zip"
 
-    # Open StringIO to grab in-memory ZIP contents
+    # Open StringIO to grab in-memory ZIP contentsm
     s = io.BytesIO() #io.StringIO()
+
     # The zip compressor
     zf = zipfile.ZipFile(s, "w")
 
     for fpath in filenames:
-        # Calculate path for file in zip
-        fdir, fname = os.path.split(fpath)
-        zip_path = fname
+        # # Calculate path for file in zip
+        # fdir, fname = os.path.split(fpath)
+        # zip_path = f"{fdir}{fpath}"
+        # print(fdir)
+        # print(fname)
+        # print(zip_path)
 
         # Add file, at correct path
-        zf.write(fpath, zip_path)
+        zf.write(fpath, fpath)
 
     # Must close zip for all contents to be written
     zf.close()
@@ -140,13 +154,41 @@ for item in listDT:
 
 """create API"""
 rootPath = "/dtps"
-App = FastAPI(root_path=rootPath)
-App.mount("/json_configurator/static", StaticFiles(directory="json_configurator/static"), name="static")
-App.include_router(dt_config_generator_router.router)
+app = FastAPI(root_path=rootPath)
+app.mount("/json_configurator/static", StaticFiles(directory="json_configurator/static"), name="static")
+app.include_router(dt_config_generator_router.router)
 
-"""define API Methods"""
-@App.post("/createTwin")
-async def createTwin(conf, version="1.0", assignNode=False, node_name=None):
+"""define API methods and input models"""
+class TwinConfig(BaseModel):
+    conf: str  # The encoded configuration string
+    version: str = "1.0"  # Default version
+    assignNode: bool = False  # Whether to assign a node
+    node_name: str = None  # Optional node name
+
+class TwinConfigID(BaseModel):
+    id: str
+    conf: str  # The encoded configuration string
+    version: str = "1.0"  # Default version
+    assignNode: bool = False  # Whether to assign a node
+    node_name: str = None  # Optional node name
+
+class ReadySignal(BaseModel):
+    uid: str
+
+class ScaleTwin(BaseModel):
+    uid: str
+    replicas: int
+
+
+@app.post("/createTwin")
+# async def createTwin(conf, version="1.0", assignNode=False, node_name=None):
+async def createTwin(config: TwinConfig):
+    # Access values from the parsed config
+    conf = config.conf
+    version = config.version
+    assignNode = config.assignNode
+    node_name = config.node_name
+
     # error handling for wrong conf
     try:
         conf = json.loads(conf)
@@ -174,7 +216,63 @@ async def createTwin(conf, version="1.0", assignNode=False, node_name=None):
 
     return {uid: "started successfully", "version": version}
 
-@App.post("/loadTwin/{uid}")
+@app.post("/createTwinWithID")
+# async def createTwin(conf, version="1.0", assignNode=False, node_name=None):
+async def createTwin(config: TwinConfigID):
+    # Access values from the parsed config
+    id = config.id
+    conf = config.conf
+    version = config.version
+    assignNode = config.assignNode
+    node_name = config.node_name
+
+    # error handling for wrong conf
+    try:
+        conf = json.loads(conf)
+    except:
+        return "Invalid configuration"
+
+    # create dt to get uid
+    dt = createdt()
+    dt._id = id
+    uid = str(dt._id)
+    id = {'_id': uid}
+
+    # Serialize DT
+
+    MongoConfSerializer.persist( id | conf)
+
+    # start unitwin deployment on kubernetes
+    kube_twin_manager.deployTwin(kube_twin_manager.defineTwin(uid, version), assignNode, node_name)
+
+    # add DT to listDT and write to pkl
+    listDT.append(uid)
+    print(listDT)
+    with open('./memory/listDT.pkl', 'wb') as output:
+        output.truncate()
+        pickle.dump(listDT, output, pickle.HIGHEST_PROTOCOL)
+
+    return {uid: "started successfully", "version": version}
+
+@app.post("/scaleTwin")
+async def scaleTwin(scaleTwin: ScaleTwin):
+    uid = scaleTwin.uid
+    if uid not in listDT:
+        response = {"status": f"No DT with uid: {uid}"}
+        return response
+    else:
+        replicas = scaleTwin.replicas
+        name = f"dt-{uid}"
+        print(f"Start scale time {uid}: {time.time()}")
+        response = kube_twin_manager.scaleDeployment(name=name, replicas=replicas)
+        return response
+
+@app.post("/ready")
+async def scaleTwin(uid: ReadySignal):
+    print(f"Ende time {uid}: {time.time()}")
+    return {"status": "received"}
+
+@app.post("/loadTwin/{uid}")
 async def loadTwin(uid, version="1.0", assignNode=False, node_name=None):
     # uid = "63fef629bc9a31ef779e85db"
 
@@ -197,14 +295,14 @@ async def loadTwin(uid, version="1.0", assignNode=False, node_name=None):
         print(status)
     return str(status)
 
-@App.get("/getConf/{uid}")
+@app.get("/getConf/{uid}")
 async def getConf(uid):
     # get conf
     conf = MongoConfSerializer.load_twin(uid)
 
     return {"conf": conf}
 
-@App.post("/updateConf/{uid}")
+@app.post("/updateConf/{uid}")
 async def updateConf(conf, uid, background_tasks: BackgroundTasks):
     # get old conf to use if any problems occure
     oldConf = MongoConfSerializer.load_twin(uid)
@@ -221,6 +319,7 @@ async def updateConf(conf, uid, background_tasks: BackgroundTasks):
         MongoConfSerializer.persist(idDT | conf)
 
         # trigger DT to update its configuration and add new instances
+        print(f"Start reconfiguration time {uid}: {time.time()}")
         url = "http://dt-" + uid + "-svc.dt.svc.cluster.local:7000/learn"
         background_tasks.add_task(twinLearn, uid, url)
         return {uid: "updated configuration."}
@@ -228,8 +327,8 @@ async def updateConf(conf, uid, background_tasks: BackgroundTasks):
         traceback.print_exc()
         return {uid: "invalid configuration. No changes!"}
 
-@App.post("/addConfInstance/{uid}")
-async def removeConf(class_name, instance_conf, uid, background_tasks: BackgroundTasks):
+@app.post("/addConfInstance/{uid}")
+async def addConf(class_name, instance_conf, uid, background_tasks: BackgroundTasks):
     # get old conf to use if any problems occure
     conf = MongoConfSerializer.load_twin(uid)
 
@@ -260,7 +359,7 @@ async def removeConf(class_name, instance_conf, uid, background_tasks: Backgroun
 
 
 
-@App.delete("/removeConfInstance/{uid}")
+@app.delete("/removeConfInstance/{uid}")
 async def removeConf(class_name, instance, uid, background_tasks: BackgroundTasks):
     # get old conf to use if any problems occure
     conf = MongoConfSerializer.load_twin(uid)
@@ -292,12 +391,12 @@ async def removeConf(class_name, instance, uid, background_tasks: BackgroundTask
         traceback.print_exc()
         return {uid: "invalid configuration. No changes!"}
 
-@App.get("/enum")
+@app.get("/enum")
 async def enum():
     resp = {"Twins": {"Number": len(listDT), "Names": listDT}}
     return resp
 
-@App.delete("/delete/{uid}")
+@app.delete("/delete/{uid}")
 async def stopTwin(uid):
     try:
         status = str(kube_twin_manager.deleteTwin(kube_twin_manager.defineTwin(uid, version=None)))
@@ -313,7 +412,7 @@ async def stopTwin(uid):
         print(status)
     return status
 
-@App.delete("/deleteAll")
+@app.delete("/deleteAll")
 async def stopAllTwins():
     for dt in listDT:
         print(kube_twin_manager.deleteTwin(kube_twin_manager.defineTwin(dt, version=None)))
@@ -324,34 +423,38 @@ async def stopAllTwins():
         pickle.dump(listDT, output, pickle.HIGHEST_PROTOCOL)
     return {"status": "All Digital Twins deleted"}
 
-@App.get("/mount/{uid}/")
+@app.get("/mount/{uid}/")
 async def mount(uid, path: str, version="1.0"):
     # mount directory for twin
     resp = kube_twin_manager.mountTwin(kube_twin_manager.defineTwin(uid, version), path)
     return resp
 
-@App.get('/provide/{name}')
+@app.get('/provide/{name}')
 def download_file(name):
     filenames = []
     files = providePaths(name)
-    for file in files:
-        filenames.append(files[file]["path"])
+    for file_type in files:
+        if isinstance(files[file_type], dict):
+            filenames.append(files[file_type]["path"])
+        else:
+            for file in files[file_type]:
+                filenames.append(file["path"])
     return zipfiles(filenames)
 
-@App.get('/list/nodes')
+@app.get('/list/nodes')
 def listNodes():
     return kube_twin_manager.listNodes()
 
-@App.get('/list/currentNode/{uid}')
+@app.get('/list/currentNode/{uid}')
 def listCurrentNodes(uid):
     deployment_name = "dt-" + uid
     return kube_twin_manager.listCurrentNode(deployment_name, namespace)
 
-@App.post('/assign/{uid}/{node_name}')
+@app.post('/assign/{uid}/{node_name}')
 def assignNode(uid, node_name):
     # assign dt to node
     deployment_name = "dt-" + uid
     return kube_twin_manager.assignNode(deployment_name, namespace, node_name)
 
 """rund API server. swagger ui on http://127.0.0.1:8000/docs#/"""
-uvicorn.run(App, host="0.0.0.0", port=8000, log_level="info")
+uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info")

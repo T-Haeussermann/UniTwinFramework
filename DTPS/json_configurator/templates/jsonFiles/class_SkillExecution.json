@@ -1,0 +1,109 @@
+{
+   "_id":"class_SkillExecution",
+   "sensors_data":{
+      "Temperature":{
+         "bounds":{
+            "upper":25,
+            "lower":20
+         },
+         "skill":{
+            "upper":{
+               "name":"LED_blue",
+               "method":"blink",
+               "end_method":"stop_blink",
+               "params":{
+
+               }
+            },
+            "lower":{
+               "name":"LED_display",
+               "method":"show_cool",
+               "end_method":"off",
+               "params":{
+
+               }
+            }
+         }
+      },
+      "Humidity":{
+         "bounds":{
+            "upper":29,
+            "lower":26
+         },
+         "skill":{
+            "upper":{
+               "name":"LED_green",
+               "method":"blink",
+               "end_method":"stop_blink",
+               "params":{
+
+               }
+            },
+            "lower":{
+               "name":"LED_display",
+               "method":"show_number",
+               "end_method":"off",
+               "params": 1776
+            }
+         }
+      },
+      "Pressure":{
+         "bounds":{
+            "upper":996,
+            "lower":995
+         },
+         "skill":{
+            "upper":{
+               "name":"LED_display",
+               "method":"blink",
+               "end_method":"stop_blink",
+               "params":{
+
+               }
+            },
+            "lower":{
+               "name":"LED_display",
+               "method":"show_help",
+               "end_method":"off",
+               "params":{
+
+               }
+            }
+         }
+      },
+      "Gas":{
+         "bounds":{
+            "upper":200,
+            "lower":139
+         },
+         "skill":{
+            "upper":{
+               "name":"LED_blue",
+               "method":"blink",
+               "end_method":"stop_blink",
+               "params":{
+
+               }
+            },
+            "lower":{
+               "name":"LED_display",
+               "method":"scroll_text",
+               "end_method":"off",
+               "params":{
+                  "text": "HELLO",
+                  "delay": 0.2
+               }
+            }
+         }
+      }
+   },
+   "dbInstance": "class_Influxdb-I1",
+   "mqttInstance": "class_MQTT-I1",
+   "threading":"run",
+   "_subscribers":{
+
+   },
+   "_subscriptions":{
+
+   }
+}

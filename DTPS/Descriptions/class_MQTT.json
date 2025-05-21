@@ -22,13 +22,18 @@
           "rc": {
             "type": "string",
             "description": "The rc parameter."
+          },
+          "properties": {
+            "type": "string",
+            "description": "The properties parameter."
           }
         },
         "required": [
           "client",
           "userdata",
           "flags",
-          "rc"
+          "rc",
+          "properties"
         ]
       }
     }
@@ -37,28 +42,27 @@
     "type": "function",
     "function": {
       "name": "publish",
-      "description": "Function publish",
+      "description": "Function to publish messages in given Topic",
       "parameters": {
         "type": "object",
         "properties": {
           "Topic": {
             "type": "string",
-            "description": "The Topic to publish the Payload in."
+            "description": "The Topic to publish the message in."
           },
           "Payload": {
             "type": "string",
-            "description": "The Payload to publish in the Topic."
+            "description": "The Payload or Message to publish in the given Topic."
           },
           "Qos": {
-            "type": "integer",
-            "description": "The Qos to send the Payload with.",
+            "type": "string",
+            "description": "The Qos parameter.",
             "default": 0
           }
         },
         "required": [
           "Topic",
-          "Payload",
-          "Qos"
+          "Payload"
         ]
       }
     }
@@ -109,6 +113,18 @@
     "function": {
       "name": "operation",
       "description": "Function operation",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "last": {
+    "type": "function",
+    "function": {
+      "name": "last",
+      "description": "Function last",
       "parameters": {
         "type": "object",
         "properties": {},

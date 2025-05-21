@@ -1,11 +1,5 @@
 # https://buffml.com/web-based-chatbot-using-flask-api/
 # https://github.com/Karan-Malik/Chatbot/tree/master/chatbot_codes
-from fastapi import FastAPI
-import uvicorn
-from fastapi import Request
-from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
 import nltk
 from nltk.stem import WordNetLemmatizer
 import pickle
@@ -16,22 +10,20 @@ import random
 from llama_cpp import Llama
 from llama_cpp.llama_tokenizer import LlamaHFTokenizer
 
-
-nltk.download('popular')
 lemmatizer = WordNetLemmatizer()
+nltk.download('popular')
 model = load_model('model/model.h5')
 intents = json.loads(open('data/data.json').read())
-words = pickle.load(open('data/texts.pkl', 'rb'))
-classes = pickle.load(open('data/labels.pkl', 'rb'))
+words = pickle.load(open('data/texts.pkl','rb'))
+classes = pickle.load(open('data/labels.pkl','rb'))
 
-# llm model
-llm_model = Llama.from_pretrained(repo_id="meetkai/functionary-small-v2.5-GGUF",
-                              filename="functionary-small-v2.5.Q4_0.gguf",
-                              local_dir="llm_model", cache_dir="model/cache",
+model_llm = Llama.from_pretrained(repo_id="meetkai/functionary-7b-v2.1-GGUF",
+                              filename="functionary-7b-v2.1.f16.gguf",
+                              local_dir="models", cache_dir="models/cache",
                               chat_format="functionary-v2",
-                              tokenizer=LlamaHFTokenizer.from_pretrained("meetkai/functionary-small-v2.5-GGUF"),
+                              tokenizer=LlamaHFTokenizer.from_pretrained("meetkai/functionary-7b-v2.1-GGUF"),
                               n_gpu_layers=-1,
-                              n_ctx=4096)
+                              n_ctx=2048)
 
 def clean_up_sentence(sentence):
     # tokenize the pattern - split words into array
@@ -73,7 +65,7 @@ def getResponse(ints, intents_json):
     tag = ints[0]['intent']
     list_of_intents = intents_json['intents']
     for i in list_of_intents:
-        if(i['tag']== tag):
+        if (i['tag'] == tag):
             result = random.choice(i['responses'])
             break
     return result
@@ -94,16 +86,15 @@ def extract_values_simple(input_string):
         elif word.lower() == "method" and i < len(words) - 1:
             method = words[i + 1]
         elif word.lower() == "parameters" and i < len(words) - 1:
-            print(words[i + 1:])
-            parameters = words[i + 1:]
+            # Combine the remaining words after "parameters" into a single string
+            parameters = ' '.join(words[i + 1:])
 
-    # remove wrong words from parameters
-    parameters_exchange = []
-    for word in parameters:
-        if "=" in word:
-            parameters_exchange.append(word)
+    if parameters != []:
+        # Split the parameters string into a list based on spaces
+        parameters = parameters.split()
 
-    parameters = parameters_exchange
+        # Filter out words that do not contain '='
+        parameters = [word for word in parameters if '=' in word]
 
     # Return the extracted values
     return {"generic_action": {"child": child, "method": method, "parameters": parameters}}
@@ -115,10 +106,11 @@ def chatbot_response(msg):
         if ints[0]["intent"] == "generic_action":
             return extract_values_simple(msg)
         res = getResponse(ints, intents)
-        return res
+        return {"resp": res}
     else:
         # Handle the case when no intent is predicted
-        return extract_values_simple(msg)
+        return "no intention found"
+
 
 def function_calling(prompt, tools, history=None):
     messages = []
@@ -127,9 +119,8 @@ def function_calling(prompt, tools, history=None):
 
     message = {"role": "user", "content": prompt}
     messages.append(message)
-    print(message)
-    response = llm_model.create_chat_completion(messages, tools=tools, tool_choice="auto")
-    print(response)
+
+    response = model_llm.create_chat_completion(messages, tools=tools, tool_choice="auto")
 
     if response["choices"][0]["message"]["tool_calls"] is not None:
         # Filter out items with empty arguments
@@ -157,37 +148,3 @@ def function_calling(prompt, tools, history=None):
         llm_message = response["choices"][0]["message"]["content"]
         message = {"message": llm_message}
         return message
-
-app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
-
-@app.get("/chat", response_class=HTMLResponse)
-# def mainpage(request: Request):
-#     return templates.TemplateResponse("index-working.html", {"request": request})
-async def read_item(request: Request):
-    return templates.TemplateResponse("index-working.html", {"request": request})
-
-@app.get("/chat/get")
-def get_bot_response(msg: str):
-    print(msg)
-    return {"resp": chatbot_response(msg)}
-
-@app.get("/fctcalling/")
-def fctcalling(prompt, tools):
-    print(prompt)
-    print(type(prompt))
-    print(tools)
-    print(type(tools))
-    tools = json.loads(tools)
-    print(tools)
-    print(type(tools))
-    print(tools)
-    print(type(tools))
-    output = function_calling(prompt, tools)
-    return output
-
-
-
-"""rund API server. swagger ui on http://127.0.0.1:5000/docs#/"""
-uvicorn.run(app, host="0.0.0.0", port=5000, log_level="info")

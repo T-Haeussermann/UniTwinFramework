@@ -12,6 +12,7 @@ from urllib.request import urlopen
 from zipfile import ZipFile
 from threading import Thread
 import traceback
+import sys
 
 
 class Composite(Component):
@@ -40,6 +41,11 @@ class Composite(Component):
 
     def remove(self, component: Component) -> None:
         self._children.remove(component)
+        # run method last and delete object
+        if hasattr(component, "last"):
+            component.last()
+            print(f"Performed method last for {component._id}")
+            del component
         # component.parent = None
 
     def subscribe(self, publisher, subscriber, subscriberMethod):
@@ -86,7 +92,6 @@ class Composite(Component):
 
     def describe(self, attribute):
         attribute_list = []
-        print(attribute)
         for item in vars(self):
             attribute_list.append(item)
 
@@ -133,10 +138,8 @@ class Composite(Component):
 
             # Get installed packages
             installed_packages = self.get_installed_packages()
-            print("installed_packages")
-            print(installed_packages)
-            print("requirements_list")
-            print(requirements_list)
+            print("installed_packages", installed_packages)
+            print("requirements_list", requirements_list)
 
             # Print the captured output
             print("Requirements generated successfully.")
@@ -178,11 +181,24 @@ class Composite(Component):
             with urlopen(url) as zipresp:
                 with ZipFile(BytesIO(zipresp.read())) as zfile:
                     for file in zfile.namelist():
-                        print(file)
-                        if ".py" in file:
-                            zfile.extract(file, './Modules')
-                        elif ".json" in file:
-                            zfile.extract(file, './Descriptions')
+                        # if ".py" in file:
+                        #     zfile.extract(file, './Modules')
+                        # elif ".json" in file:
+                        #     zfile.extract(file, './Descriptions')
+                        file_path = os.path.join("./", file)
+
+                        # Check if the member is a directory or a file
+                        if file.endswith("/"):
+                            # Create directory if it does not exist
+                            if not os.path.exists(file_path):
+                                os.makedirs(file_path)
+                        else:
+                            # Ensure the parent directory exists
+                            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+                            # Extract the file
+                            # zfile.extract(file, file_path)
+                            with zfile.open(file) as source, open(file_path, 'wb') as target:
+                                target.write(source.read())
 
             # Check and install requirements if needed
             self.install_requirements(self.generate_requirements("./Modules"))
@@ -193,13 +209,15 @@ class Composite(Component):
             self.instantiateObject(item, modules_conf)
 
     def unimpModule(self, item):
-        # at the moment just here to pass through adapt in future to remove module if possibles
-        self.disembodyObject(item)
+        package_name = item
+        loaded_package_modules = [key for key, value in sys.modules.items() if package_name in str(value)]
+        for key in loaded_package_modules:
+            print("Unimportet:", key)
+            del sys.modules[key]
+        importlib.invalidate_caches()
 
     def addMethodNames(self, item):
-        print(item)
         itemConf = self._conf[item]
-        print(itemConf)
         for instance in itemConf:
             # Get child and a list of all attributes
             child = self.getChild(itemConf[instance]["_id"])
@@ -212,10 +230,8 @@ class Composite(Component):
             # Add methods to self.methods
             self._methods.extend(method_names)
 
-    def removeMethodNames(self, item):
-        print(item)
-        itemConf = self._conf[item]
-        print(itemConf)
+    def removeMethodNames(self, item, old_Conf):
+        itemConf = old_Conf[item]
         for instance in itemConf:
             # Get child and a list of all attributes
             child = self.getChild(itemConf[instance]["_id"])
@@ -290,14 +306,17 @@ class Composite(Component):
 
         # learn new
         self.learn_add(items_to_learn)
+        print(f"items_to_learn: {items_to_learn}")
+        print(f"items_to_relearn: {items_to_relearn}")
+        print(f"items_to_remove: {items_to_remove}")
 
         # relearn
         # remove children first
-        self.learn_remove(items_to_relearn)
+        self.learn_remove(items_to_relearn, oldConf)
         self.learn_add(items_to_relearn)
 
         # remove old
-        routers = self.learn_remove(items_to_remove)
+        routers = self.learn_remove(items_to_remove, oldConf, delete=True)
 
         print(f"learned: {learnd}")
         print(f"relearnd: {relearned}")
@@ -343,40 +362,63 @@ class Composite(Component):
                             subscriberMethod = child._subscriptions[subscription]
                             subscriptiontext = self.subscribe(subscription, child._id, subscriberMethod)
                             # add to publishers subscribers
-                            print(f"vorher: {self.getChild(subscription)._subscribers}")
                             self.getChild(subscription)._subscribers[child._id] = subscriberMethod
-                            print(f"nachher: {self.getChild(subscription)._subscribers}")
                             print(subscriptiontext)
                     # check if added item is listed as subscriber in the children configuration
-                    for conf in self._conf:
-                        for instance in self._conf[conf]:
-                            if "_subscribers" in self._conf[conf][instance]:
-                                if item in self._conf[conf][instance]["_subscribers"]:
+                    # for conf in self._conf:
+                    #     for instance in self._conf[conf]:
+                    #         if "_subscribers" in self._conf[conf][instance]:
+                    #             if item in self._conf[conf][instance]["_subscribers"]:
+                    #                 # Subscriber x with method y!
+                    #                 publisher = self.getChild(self._conf[conf][instance]["_id"])
+                    #                 subscriberMethod = self._conf[conf][instance]["_subscribers"][item]
+                    #                 publisher._subscribers[child._id] = subscriberMethod
+                    #                 subscriptiontext = self.subscribe(publisher._id, item, subscriberMethod)
+                    #                 print(subscriptiontext)
+                    # check if added item is listed as subscriber in the children configuration
+                    for ch in self._children:
+                        if hasattr(ch, "_subscribers"):
+                            # if item in ch._subscribers:
+                            print(ch._id, ch._subscribers)
+                            if items_to_learn[item][instance]["_id"] in ch._subscribers:
+                                for subscriber in ch._subscribers:
                                     # Subscriber x with method y!
-                                    publisher = self.getChild(self._conf[conf][instance]["_id"])
-                                    subscriberMethod = self._conf[conf][instance]["_subscribers"][item]
-                                    publisher._subscribers[child._id] = subscriberMethod
-                                    subscriptiontext = self.subscribe(publisher._id, item, subscriberMethod)
+                                    subscriberMethod = ch._subscribers[subscriber]
+                                    subscriptiontext = self.subscribe(ch._id, subscriber, subscriberMethod)
+                                    print(subscriptiontext)
+                        if hasattr(ch, "_subscriptions"):
+                            print(ch._id, ch._subscriptions)
+                            if items_to_learn[item][instance]["_id"] in ch._subscriptions:
+                                for subscription in ch._subscriptions:
+                                    # Subscribe to x with method y!
+                                    subscriberMethod = ch._subscriptions[subscription]
+                                    subscriptiontext = self.subscribe(subscription, ch._id, subscriberMethod)
+                                    # add to publishers subscribers
+                                    print(f"vorher: {self.getChild(subscription)._subscribers}")
+                                    self.getChild(subscription)._subscribers[ch._id] = subscriberMethod
+                                    print(f"nachher: {self.getChild(subscription)._subscribers}")
                                     print(subscriptiontext)
         except Exception as e:
             traceback.print_exc()
 
-    def learn_remove(self, items_to_remove):
+    def learn_remove(self, items_to_remove, old_Conf, delete=False):
         routers = []
         try:
 
             # remove method names
             for item in items_to_remove:
-                self.removeMethodNames(item)
+                print(os.system("ls ./Descriptions"))
+                self.removeMethodNames(item, old_Conf)
 
                 # remove description from tools
-                with open(f"./Descriptions/{item}", "r") as file:
+                with open(f"./Descriptions/{item}.json", "r") as file:
                     class_description = json.load(file)
                     for function in class_description:
                         self._tools.remove(class_description[function])
 
-                # remove description file
-                os.remove(f"./Descriptions/{item}.json")
+                if delete:
+                    # remove description file
+                    os.remove(f"./Descriptions/{item}.json")
 
             for item in items_to_remove:
                 for instance in items_to_remove[item]:
@@ -393,9 +435,7 @@ class Composite(Component):
                             subscriberMethod = child._subscriptions[subscription]
                             subscriptiontext = self.unsubscribe(subscription, child._id, subscriberMethod)
                             # remove from publishers subscribers
-                            print(f"vorher: {self.getChild(subscription)._subscribers}")
                             self.getChild(subscription)._subscribers.pop(child._id)
-                            print(f"nachher: {self.getChild(subscription)._subscribers}")
                             print(subscriptiontext)
                     if hasattr(child, "_router"):
                         routers.append(child._router)
@@ -412,7 +452,25 @@ class Composite(Component):
                                                                     subscriberMethod)
                                 ch._subscribers.pop(items_to_remove[item][instance]["_id"])
                                 print(subscriptiontext)
+
+                                #update self._conf with removed subscribers
+                                for class_name in self._conf:
+                                    for instance_name in self._conf[class_name]:
+                                        if "_subscribers" in self._conf[class_name][instance_name]:
+                                            if items_to_remove[item][instance]['_id'] in self._conf[class_name][instance_name]["_subscribers"]:
+                                                self._conf[class_name][instance_name]["_subscribers"].pop(items_to_remove[item][instance]['_id'])
+
+                                url = "http://dtps-svc.dt.svc.cluster.local:8000/updateConf/" + self._uid
+                                headers = {'accept': 'application/json', 'content-type': 'application/x-www-form-urlencoded'}
+                                params = {"conf": json.dumps(self._conf)}
+                                resp = requests.post(url, params=params, headers=headers)
+                                print(resp.json())
+
                     self.remove(child)
+                if delete:
+                    # remove class file
+                    os.remove(f"./Modules/{item}.py")
+                    self.unimpModule(item)
         except Exception as e:
             traceback.print_exc()
         return routers
@@ -456,6 +514,14 @@ class Composite(Component):
                                 if item not in items_to_relearn:
                                     items_to_relearn[item] = {}
                                 items_to_relearn[item][subitem] = new_dict[item][subitem]
+
+            # Remove duplicates from items_to_learn and items_to_remove
+            # for item in items_to_relearn:
+            #     for subitem in items_to_relearn[item]:
+            #         if subitem in items_to_learn[item]:
+            #             items_to_learn[item].pop(subitem)
+            #         if subitem in items_to_remove[item]:
+            #             items_to_remove[item].pop(subitem)
 
             # Clean up empty class entries
             items_to_learn = {k: v for k, v in items_to_learn.items() if v != {}}
@@ -520,7 +586,5 @@ class Composite(Component):
                         subscriberMethod = child._subscriptions[subscription]
                         subscriptiontext = self.subscribe(subscription, child._id, subscriberMethod)
                         # add to publishers subscribers
-                        print(f"vorher: {self.getChild(subscription)._subscribers}")
                         self.getChild(subscription)._subscribers[child._id] = subscriberMethod
-                        print(f"nachher: {self.getChild(subscription)._subscribers}")
                         print(subscriptiontext)

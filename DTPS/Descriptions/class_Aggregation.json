@@ -1,0 +1,69 @@
+{
+  "run": {
+    "type": "function",
+    "function": {
+      "name": "run",
+      "description": "Function run",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "get_all": {
+    "type": "function",
+    "function": {
+      "name": "get_all",
+      "description": "Function get_all",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "dt": {
+            "type": "string",
+            "description": "The dt parameter."
+          },
+          "attribute": {
+            "type": "string",
+            "description": "The attribute parameter."
+          }
+        },
+        "required": [
+          "dt",
+          "attribute"
+        ]
+      }
+    }
+  },
+  "run_seq": {
+    "type": "function",
+    "function": {
+      "name": "run_seq",
+      "description": "Function run_seq",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "scale": {
+    "type": "function",
+    "function": {
+      "name": "scale",
+      "description": "Function scale",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string",
+            "description": "The data parameter."
+          }
+        },
+        "required": [
+          "data"
+        ]
+      }
+    }
+  }
+}

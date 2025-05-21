@@ -9,16 +9,16 @@ from .class_Event import Event
 class class_serverMeasurements(Component):
     def __init__(self, _conf):
         self._event = Event()
+        self.sensor_data = {}
 
-        self._router = APIRouter()
-        self.configure_router()
+        self.Q = Queue()
 
         for item in _conf:
             self.__setattr__(item, _conf[item])
 
-        self.sensor_data = {}
+        self._router = APIRouter()
+        self.configure_router()
 
-        self.Q = Queue()
 
     def set_measurement_values(self):
         msg = self.Q.get()
@@ -40,7 +40,7 @@ class class_serverMeasurements(Component):
                     requests.post(self._http_subscribers[_http_subscriber], data=self.sensor_data)
 
     def configure_router(self):
-        @self._router.get("/sensor_data/")
+        @self._router.get(f"/{self._id}/sensor_data/")
         def get_sensor_data(sensor: str = "", all_sensors: bool = False):
             if sensor == "":
                 all_sensors = True
@@ -55,7 +55,7 @@ class class_serverMeasurements(Component):
             else:
                 return {"msg": "no sensor_data found"}
 
-        @self._router.get("/sensors/")
+        @self._router.get(f"/{self._id}/sensors/")
         def get_sensors():
             sensor_list = []
             for sensor in self.sensor_data:

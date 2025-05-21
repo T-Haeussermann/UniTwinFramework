@@ -1,0 +1,14 @@
+{
+  "getData": {
+    "type": "function",
+    "function": {
+      "name": "evaluate_measurement",
+      "description": "Function evaluate_measurement",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+        },
+        "required": []
+      }
+  }
+}

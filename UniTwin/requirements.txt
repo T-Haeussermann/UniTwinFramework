@@ -1,7 +1,6 @@
 fastapi==0.93.0
 influxdb_client==1.36.1
 minio==7.1.15
-pyDataverse==0.3.1
 pymongo==4.3.3
 statsmodels==0.13.5
 joblib==1.2.0

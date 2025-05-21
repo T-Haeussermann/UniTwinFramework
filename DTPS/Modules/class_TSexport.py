@@ -14,12 +14,13 @@ class class_TSexport(Component):
         self.Q = Queue()
         self.threading = True
         self.dir = "/UniTwin/export"
-        self._router = APIRouter()
-        self.configure_router()
         self.export = False
 
         for item in _conf:
             self.__setattr__(item, _conf[item])
+
+        self._router = APIRouter()
+        self.configure_router()
 
 
     def exportCSV(self):
@@ -85,15 +86,15 @@ class class_TSexport(Component):
             schedule.run_pending()
 
     def configure_router(self):
-        @self._router.get("/TSDexport/getExport")
+        @self._router.get(f"/{self._id}/TSDexport/getExport")
         def getExport():
             return self.export
 
-        @self._router.post("/TSDexport/setExport/{value}")
+        @self._router.post(f"/{self._id}/TSDexport/setExport/{value}")
         def setExport(value: bool = False):
             self.export = value
             return {self.export: f"Set to {str(value)}"}
 
-        @self._router.get("/TSDexport/export")
+        @self._router.get(f"/{self._id}/TSDexport/export")
         def getExport(timeSeconds: int = 30):
             return self.exportCSVmanual(timeSeconds)

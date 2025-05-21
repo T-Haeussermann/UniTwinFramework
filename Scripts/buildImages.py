@@ -16,14 +16,15 @@ versionChatModelProvider = "1.0"
 tagChatModelProvider = "chatmodelprovider:" + versionChatModelProvider
 
 # Define privat registry endpoint
-registry = "registry_ip:registry_port"
-user = "user"
-password = "password"
+registry = "192.168.100.11:31000"
+user = "tim"
+password = "changeme"
 
 # Define which image to build and push
 dtps = False
 unitwin = True
 chatmodelprovider = False
+buildonly = True
 pushonly = False
 
 # Change working directory
@@ -35,13 +36,17 @@ def buildImage(dockerfile, tag):
     os.system(buildCommand)
 
 def pushToRegistry(imageTag, registry):
-    loginCommand = f"docker login -u {user} -p {password} registry_ip:registry_port"
-    os.system(loginCommand)
+    if not buildonly:
+        loginCommand = f"docker login -u {user} -p {password} 192.168.100.11:31000"
+        os.system(loginCommand)
+
     tagCommand = f"docker tag {imageTag} {registry}/{imageTag}"
     os.system(tagCommand)
-    pushCommand = f"docker push {registry}/{imageTag}"
-    print(pushCommand)
-    os.system(pushCommand)
+
+    if not buildonly:
+        pushCommand = f"docker push {registry}/{imageTag}"
+        print(pushCommand)
+        os.system(pushCommand)
 
 # Clean up system to prevent full storage
 cleancommand = "docker system prune -f"

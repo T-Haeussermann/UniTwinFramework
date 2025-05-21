@@ -1,0 +1,403 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Rectangles Display</title>-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
+<!--    <style>-->
+<!--        html, body {-->
+<!--            padding: 0;-->
+<!--            width: 100%;-->
+<!--            text-align: center;-->
+<!--            background: #4a4a4a;-->
+<!--            color: white;-->
+<!--            height: 100%;-->
+<!--            margin: 0;-->
+<!--        }-->
+<!--        h1 {-->
+<!--            margin-top: 20px;-->
+<!--            font-size: 3em;-->
+<!--        }-->
+<!--        canvas {-->
+<!--            margin: 0;-->
+<!--            aspect-ratio: 1 / 1;-->
+<!--            border: 1px solid black;-->
+<!--            background-color: #DDD;-->
+<!--            border-radius: 10px;-->
+<!--            width: 90vw;-->
+<!--            max-height: 90vh;-->
+
+<!--        }-->
+<!--        .container {-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            height: 100vh;-->
+<!--            width: 100vw;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Production Line</h1>-->
+<!--    <canvas id="canvas" width="1000" height="1000"></canvas>-->
+
+<!--    <script>-->
+<!--        const colorMap = {};-->
+<!--        let colorIndex = 0;-->
+<!--        const statuses = {}; // To store current statuses of rectangles-->
+<!--        const values = {};   // To store current values of rectangles-->
+<!--        const rectangles = []; // To store rectangle data-->
+<!--        const uid = "/dt-uid"-->
+
+<!--        function getColor(id) {-->
+<!--            const group = id.charAt(0);-->
+<!--            if (!(group in colorMap)) {-->
+<!--                colorMap[group] = getNextColor();-->
+<!--            }-->
+<!--            return colorMap[group];-->
+<!--        }-->
+
+<!--        function getNextColor() {-->
+<!--            const colors = ["blue", "orange", "purple", "cyan", "magenta", "yellow", "brown", "pink"];-->
+<!--            const color = colors[colorIndex % colors.length];-->
+<!--            colorIndex++;-->
+<!--            return color;-->
+<!--        }-->
+
+<!--        async function fetchRectangles() {-->
+<!--            const response = await fetch(`${uid}/get-pos`);-->
+<!--            const data = await response.json();-->
+<!--            // return flattenData(data);-->
+<!--            return data;-->
+<!--            // return Object.values(data).flat(); // Flatten the nested arrays into a single array-->
+<!--        }-->
+
+<!--        function flattenData(data) {-->
+<!--            const flattened = [];-->
+<!--            function recursiveFlatten(obj) {-->
+<!--                if (Array.isArray(obj)) {-->
+<!--                    flattened.push(...obj);-->
+<!--                } else if (typeof obj === 'object') {-->
+<!--                    for (const key in obj) {-->
+<!--                        recursiveFlatten(obj[key]);-->
+<!--                    }-->
+<!--                }-->
+<!--            }-->
+<!--            recursiveFlatten(data);-->
+<!--            return flattened;-->
+<!--        }-->
+
+<!--        async function fetchStatus(id) {-->
+<!--            const response = await fetch(`${uid}/get-status/?id=${id}`);-->
+<!--            const data = await response.json();-->
+<!--            return data.status; // Extract status from the response-->
+<!--        }-->
+
+<!--        async function fetchValue(id) {-->
+<!--            const response = await fetch(`${uid}/get-value/?id=${id}`);-->
+<!--            const data = await response.json();-->
+<!--            return data.value; // Extract value from the response-->
+<!--        }-->
+
+<!--         async function updateStatusesAndValues() {-->
+<!--            const statusPromises = rectangles.map(async rect => {-->
+<!--                if (rect.status) {-->
+<!--                    const status = await fetchStatus(rect.id);-->
+<!--                    statuses[rect.id] = status;-->
+<!--                }-->
+<!--            });-->
+
+<!--            const valuePromises = rectangles.map(async rect => {-->
+<!--                if (rect.value) {-->
+<!--                    const value = await fetchValue(rect.id);-->
+<!--                    values[rect.id] = value;-->
+<!--                }-->
+<!--            });-->
+
+<!--            await Promise.all([...statusPromises, ...valuePromises]);-->
+<!--            drawRectangles(); // Redraw rectangles with updated statuses and values-->
+<!--        }-->
+
+<!--        function drawRectangles() {-->
+<!--            const canvas = document.getElementById('canvas');-->
+<!--            const ctx = canvas.getContext('2d');-->
+<!--            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas-->
+
+<!--            // Calculate the bounding box of all rectangles-->
+<!--            const allRectangles = Object.values(rectangles).flat();-->
+<!--            const bounds = allRectangles.reduce((acc, rect) => {-->
+<!--                return {-->
+<!--                    minX: Math.min(acc.minX, rect.position.x - rect.width / 2),-->
+<!--                    maxX: Math.max(acc.maxX, rect.position.x + rect.width / 2)-->
+<!--                };-->
+<!--            }, {-->
+<!--                minX: Infinity,-->
+<!--                maxX: -Infinity-->
+<!--            });-->
+
+<!--            // Calculate the offset to center the rectangles horizontally-->
+<!--            const offsetX = (canvas.width - (bounds.maxX - bounds.minX)) / 2 - bounds.minX;-->
+
+<!--            allRectangles.forEach(rect => {-->
+<!--                const x = rect.position.x - rect.width / 2 + offsetX;-->
+<!--                const y = rect.position.y - rect.height / 2;-->
+
+<!--                // Determine color and draw the rectangle-->
+<!--                if (rect.status) {-->
+<!--                    // Draw based on the fetched status-->
+<!--                    const status = statuses[rect.id] || 'inactive'; // Default to 'inactive' if status not found-->
+<!--                    ctx.fillStyle = status === 'active' ? 'green' : 'red'; // Color based on status-->
+<!--                }-->
+<!--                else {-->
+<!--                    // Default color based on ID-->
+<!--                    ctx.fillStyle = getColor(rect.id);-->
+<!--                }-->
+<!--                ctx.fillRect(x, y, rect.width, rect.height); // Draw the filled rectangle-->
+<!--            });-->
+
+<!--            allRectangles.forEach(rect => {-->
+<!--                const x = rect.position.x + offsetX;-->
+<!--                const y = rect.position.y;-->
+
+<!--                // Draw the ID text-->
+<!--                ctx.fillStyle = 'black'; // Set text color-->
+<!--                ctx.font = '20px Arial'; // Set font size and type-->
+<!--                ctx.textAlign = 'center'; // Center text horizontally-->
+<!--                ctx.textBaseline = 'middle'; // Center text vertically-->
+<!--                ctx.fillText(rect.id, x, y - 10); // Draw ID slightly above the center-->
+
+<!--                if (rect.value) {-->
+<!--                    // Draw the value text-->
+<!--                    ctx.fillStyle = 'white'; // Set text color for value-->
+<!--                    ctx.font = '20px Arial'; // Set font size for value-->
+<!--                    ctx.fillText(values[rect.id] || 0, x, y + 10); // Draw value slightly below the center-->
+<!--                }-->
+
+<!--            });-->
+<!--        }-->
+
+<!--        async function init() {-->
+<!--            rectangles.push(...await fetchRectangles()); // Fetch and store rectangles-->
+<!--            updateStatusesAndValues(); // Initial status and value fetch-->
+<!--            setInterval(updateStatusesAndValues, 1000); // Fetch statuses and values every second-->
+<!--        }-->
+
+<!--        window.onload = init;-->
+
+<!--    </script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rectangles Display</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        html, body {
+            padding: 0;
+            width: 100%;
+            text-align: center;
+            background: #4a4a4a;
+            color: white;
+            height: 100%;
+            margin: 0;
+        }
+        h1 {
+            margin-top: 20px;
+            font-size: 3em;
+        }
+        canvas {
+            margin: 0;
+            aspect-ratio: 1 / 1;
+            border: 1px solid black;
+            background-color: #DDD;
+            border-radius: 10px;
+            width: 90vw;
+            max-height: 90vh;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+        }
+    </style>
+</head>
+<body>
+    <h1>Production Line</h1>
+    <canvas id="canvas" width="1000" height="1000"></canvas>
+
+    <script>
+        const colorMap = {};
+        let colorIndex = 0;
+        const statuses = {}; // To store current statuses of rectangles
+        const values = {};   // To store current values of rectangles
+        const rectangles = {}; // To store rectangle data keyed by IDs
+        const uid = "/dt-uid";
+
+        function getColor(id) {
+            const group = id.charAt(0);
+            if (!(group in colorMap)) {
+                colorMap[group] = getNextColor();
+            }
+            return colorMap[group];
+        }
+
+        function getNextColor() {
+            const colors = ["blue", "orange", "purple", "cyan", "magenta", "yellow", "brown", "pink"];
+            const color = colors[colorIndex % colors.length];
+            colorIndex++;
+            return color;
+        }
+
+        async function fetchRectangles() {
+            try {
+                const response = await fetch(`${uid}/get-pos`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Failed to fetch rectangles:', error);
+                return {}; // Return empty object on error
+            }
+        }
+
+        async function fetchStatus(dt, id) {
+            try {
+                const response = await fetch(`/dt-${dt}/get-status/?id=${id}`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                return data.status;
+            } catch (error) {
+                console.error(`Failed to fetch status for ${id}:`, error);
+                return 'inactive'; // Default status on error
+            }
+        }
+
+        async function fetchValue(dt, id) {
+            try {
+                const response = await fetch(`/dt-${dt}/get-value/?id=${id}`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                return data.value;
+            } catch (error) {
+                console.error(`Failed to fetch value for ${id}:`, error);
+                return 0; // Default value on error
+            }
+        }
+
+        async function updateStatusesAndValues() {
+            const statusPromises = [];
+            const valuePromises = [];
+
+            for (const key in rectangles) {
+                if (Object.hasOwnProperty.call(rectangles, key)) {
+                    const rects = rectangles[key];
+                    if (Array.isArray(rects)) {
+                        rects.forEach(rect => {
+                            if (rect.status) {
+                                statusPromises.push(fetchStatus(key, rect.id).then(status => {
+                                    statuses[rect.id] = status;
+                                }));
+                            }
+                            if (rect.value) {
+                                valuePromises.push(fetchValue(key, rect.id).then(value => {
+                                    values[rect.id] = value;
+                                }));
+                            }
+                        });
+                    } else {
+                        console.warn(`Expected array but got ${typeof rects} for key ${key}`);
+                    }
+                }
+            }
+
+            await Promise.all([...statusPromises, ...valuePromises]);
+            drawRectangles(); // Redraw rectangles with updated statuses and values
+        }
+
+        function drawRectangles() {
+            const canvas = document.getElementById('canvas');
+            if (!canvas) {
+                console.error('Canvas element not found');
+                return;
+            }
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+                console.error('Failed to get canvas context');
+                return;
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+
+            if (Object.keys(rectangles).length === 0) {
+                console.warn('No rectangles to draw');
+                return;
+            }
+
+            for (const key in rectangles) {
+                if (Object.hasOwnProperty.call(rectangles, key)) {
+                    const rects = rectangles[key];
+                    if (Array.isArray(rects)) {
+                        rects.forEach(rect => {
+                            if (rect.position && rect.position.x != null && rect.position.y != null) {
+                                const x = rect.position.x - (rect.width || 0) / 2;
+                                const y = rect.position.y - (rect.height || 0) / 2;
+
+                                // Determine color and draw the rectangle
+                                if (rect.status === "True") {
+                                    const status = statuses[rect.id] || 'inactive';
+                                    ctx.fillStyle = status === 'active' ? 'green' : 'red';
+                                } else {
+                                    ctx.fillStyle = getColor(rect.id);
+                                }
+                                ctx.fillRect(x, y, rect.width || 0, rect.height || 0);
+
+                                // Draw the ID text
+                                ctx.fillStyle = 'black';
+                                ctx.font = '20px Arial';
+                                ctx.textAlign = 'center';
+                                ctx.textBaseline = 'middle';
+                                ctx.fillText(rect.id, x + (rect.width || 0) / 2, y + (rect.height || 0) / 2 - 10);
+
+                                if (rect.value === "True") {
+                                    // Draw the value text
+                                    ctx.fillStyle = 'white';
+                                    ctx.font = '20px Arial';
+                                    ctx.fillText(values[rect.id] || 0, x + (rect.width || 0) / 2, y + (rect.height || 0) / 2 + 10);
+                                }
+                            } else {
+                                console.warn(`Invalid position or dimensions for rectangle ${rect.id}`);
+                            }
+                        });
+                    } else {
+                        console.warn(`Expected array but got ${typeof rects} for key ${key}`);
+                    }
+                }
+            }
+        }
+
+        async function init() {
+            const data = await fetchRectangles();
+            Object.assign(rectangles, data);
+            await updateStatusesAndValues();
+            setInterval(updateStatusesAndValues, 1000);
+        }
+
+        window.onload = init;
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</body>
+</html>

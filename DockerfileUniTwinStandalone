@@ -1,0 +1,40 @@
+# For more information, please refer to https://aka.ms/vscode-docker-python
+FROM python:3.9
+
+EXPOSE 7000
+ENV STANDALONE=True
+
+# Keeps Python from generating .pyc files in the container
+ENV PYTHONDONTWRITEBYTECODE=1
+
+# Turns off buffering for easier container logging
+ENV PYTHONUNBUFFERED=1
+
+# Install pip requirements
+COPY UniTwin/requirements.txt .
+RUN python -m pip install -r requirements.txt
+
+# Install pipreqs for dynamic requirement determination
+RUN python -m pip install pipreqs
+
+# Install nltk data to speed up unitwin startup
+#RUN [ "python3", "-c","import nltk; nltk.download('popular')"]
+
+WORKDIR /UniTwin
+COPY UniTwin .
+ADD UniTwin .
+ADD DTPS/Modules/ Modules/
+
+RUN pipreqs Modules
+RUN python -m pip install -r /UniTwin/Modules/requirements.txt
+
+
+
+
+
+# Run the application
+ENTRYPOINT ["python"]
+CMD ["UniTwinGenerator.py"]
+
+#ENTRYPOINT [ "/bin/bash", "-l", "-c" ]
+#CMD [ "sleep 3600" ]

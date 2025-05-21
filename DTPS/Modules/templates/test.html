@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rectangles Display</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #4a4a4a;
+            color: white;
+        }
+        .position-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            border: 1px solid white;
+        }
+        .card {
+            position: absolute;
+            width: 150px;
+            height: 100px;
+            color: white;
+            text-align: center;
+            background-color: #6c757d; /* Bootstrap secondary color */
+        }
+        .card-header {
+            font-weight: bold;
+        }
+        .active-status {
+            background-color: green;
+        }
+        .inactive-status {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Dashboard</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Settings</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Container to hold dynamically generated rectangles -->
+    <div class="container mt-4 position-container" id="rectangles-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    <script>
+        const rectangles = {
+            // Example data structure (replace this with your actual data)
+            'dt-1': [
+                { id: '123', status: 'active', value: 42, position: { top: 50, left: 100 } },
+                { id: '124', status: 'inactive', value: 30, position: { top: 200, left: 300 } },
+            ],
+        };
+
+        function renderRectangles() {
+            const container = document.getElementById('rectangles-container');
+
+            for (const key in rectangles) {
+                if (rectangles.hasOwnProperty(key)) {
+                    const rects = rectangles[key];
+                    rects.forEach(rect => {
+                        const statusClass = rect.status === 'active' ? 'active-status' : 'inactive-status';
+
+                        // Create the card element
+                        const card = document.createElement('div');
+                        card.className = 'card';
+                        card.style.top = `${rect.position.top}px`;
+                        card.style.left = `${rect.position.left}px`;
+                        card;
+
+                        // Create the card header
+                        const cardHeader = document.createElement('div');
+                        cardHeader.className = 'card-header';
+                        cardHeader.textContent = `ID: ${rect.id}`;
+
+                        // Create the card body
+                        const cardBody = document.createElement('div');
+                        cardBody.className = 'card-body';
+
+                        // Create the status paragraph
+                        const statusParagraph = document.createElement('p');
+                        statusParagraph.className = 'card-text';
+                        statusParagraph.innerHTML = `Status: <span class="badge ${statusClass}">${rect.status}</span>`;
+
+                        // Create the value paragraph
+                        const valueParagraph = document.createElement('p');
+                        valueParagraph.className = 'card-text';
+                        valueParagraph.innerHTML = `Value: ${rect.value}</span>`;
+                        // `Value: ${rect.value}`;
+
+                        // Append elements to the card body
+                        cardBody.appendChild(statusParagraph);
+                        cardBody.appendChild(valueParagraph);
+
+                        // Append header and body to the card
+                        card.appendChild(cardHeader);
+                        card.appendChild(cardBody);
+
+                        // Append the card to the container
+                        container.appendChild(card);
+                    });
+                }
+            }
+        }
+
+        window.onload = renderRectangles;
+    </script>
+</body>
+</html>

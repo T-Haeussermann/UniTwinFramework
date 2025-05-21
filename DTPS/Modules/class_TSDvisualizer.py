@@ -26,11 +26,13 @@ class class_TSDvisualizer(Component):
         self.dbInstance = None
         self.TSDanalyse = None
 
+        for item in _conf:
+            self.__setattr__(item, _conf[item])
+
         self._router = APIRouter()
         self.configure_router()
 
-        for item in _conf:
-            self.__setattr__(item, _conf[item])
+
 
     def getData(self, initialization_time):
         # Load the time series data
@@ -212,7 +214,7 @@ class class_TSDvisualizer(Component):
             self.TSDanalyseInstance = self.parent.getChild(self.TSDanalyse)
 
     def configure_router(self):
-        @self._router.get("/TSDvisualizer/initialize")
+        @self._router.get(f"/{self._id}/TSDvisualizer/initialize")
         def initialize(background_tasks: BackgroundTasks, initialization_time: int = 0, TSDanalyse: bool = False, overwrite: bool = False):
             if overwrite is True and self.initialized is True:
                 if initialization_time != 0 and TSDanalyse is False:
@@ -241,7 +243,7 @@ class class_TSDvisualizer(Component):
             elif self.initialized is True and overwrite is False:
                 return {"Status": "Already initialized. Doing nothing. Set overwrite to true to reinitialize."}
 
-        @self._router.get("/TSDvisualizer/forecast/{sensor}")
+        @self._router.get(f"/{self._id}/TSDvisualizer/forecast/{sensor}")
         def forecast(sensor):
             if self.initialized is True:
                 if sensor in self.sensors:
@@ -252,7 +254,7 @@ class class_TSDvisualizer(Component):
             else:
                 return {"Status": "Error! initialize first."}
 
-        @self._router.get("/TSDvisualizer/predict")
+        @self._router.get(f"/{self._id}/TSDvisualizer/predict")
         def predict(sensor):
             if self.initialized is True:
                 if sensor in self.sensors:
@@ -263,7 +265,7 @@ class class_TSDvisualizer(Component):
             else:
                 return {"Status": "Error! initialize first."}
 
-        @self._router.get("/TSDvisualizer/plot")
+        @self._router.get(f"/{self._id}/TSDvisualizer/plot")
         def plot(sensor):
             if self.initialized is True:
                 if sensor in self.sensors:

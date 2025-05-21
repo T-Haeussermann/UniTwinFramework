@@ -1,0 +1,17 @@
+{
+  "_id":"class_Part",
+  "pos_data":[
+    {"id": "C1", "position": {"x": 50, "y": 110}, "width": 80, "height": 200, "value": "True", "status": "False"},
+    {"id": "C2", "position": {"x": 200, "y": 50}, "width": 200, "height": 80, "value": "False", "status": "True"}
+  ],
+  "skills":[
+    "skill_1",
+    "skill_2"
+  ],
+  "_subscribers":{
+
+  },
+  "_subscriptions":{
+
+  }
+}

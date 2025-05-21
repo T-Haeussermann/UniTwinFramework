@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoJS Rectangles Display</title>
+    <script src="https://unpkg.com/gojs/release/go.js"></script>
+    <style>
+        body {
+            background: #4a4a4a;
+            color: white;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        #myDiagramDiv {
+            width: 100%;
+            height: 100vh;
+            border: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="myDiagramDiv"></div>
+
+    <script>
+        function init() {
+            const $ = go.GraphObject.make;
+
+            // Create a GoJS Diagram
+            const myDiagram = $(go.Diagram, "myDiagramDiv", {
+                "undoManager.isEnabled": true,
+                layout: $(go.GridLayout, { spacing: new go.Size(20, 20) }),
+            });
+
+            // Define a Node template
+            myDiagram.nodeTemplate =
+                $(go.Node, "Auto",
+                    $(go.Shape, "RoundedRectangle",
+                        {
+                            strokeWidth: 0,
+                            fill: "lightgray"
+                        },
+                        // Bind the Shape's fill color to the node's "status"
+                        new go.Binding("fill", "status", status => status === "active" ? "green" : "red")
+                    ),
+                    $(go.Panel, "Vertical",
+                        { margin: 6 },
+                        $(go.TextBlock,
+                            { font: "bold 14px Arial", margin: 4 },
+                            new go.Binding("text", "id")
+                        ),
+                        $(go.TextBlock,
+                            { margin: 2 },
+                            new go.Binding("text", "status", status => `Status: ${status}`)
+                        ),
+                        $(go.TextBlock,
+                            { margin: 2 },
+                            new go.Binding("text", "value", value => `Value: ${value}`)
+                        )
+                    )
+                );
+
+            // Example data
+            const nodeDataArray = [
+                { key: 1, id: "123", status: "active", value: 42, loc: "100 50" },
+                { key: 2, id: "124", status: "inactive", value: 30, loc: "300 200" }
+            ];
+
+            // Create the Model and assign it to the Diagram
+            myDiagram.model = new go.GraphLinksModel(nodeDataArray);
+
+            // Position the nodes based on 'loc' data
+            myDiagram.model.nodeDataArray.forEach(node => {
+                const data = myDiagram.model.findNodeDataForKey(node.key);
+                if (data && data.loc) {
+                    const point = go.Point.parse(data.loc);
+                    const diagramNode = myDiagram.findNodeForData(data);
+                    diagramNode.position = point;
+                }
+            });
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

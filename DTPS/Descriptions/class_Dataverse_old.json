@@ -1,0 +1,186 @@
+{
+  "run": {
+    "type": "function",
+    "function": {
+      "name": "run",
+      "description": "Function run",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "createDir": {
+    "type": "function",
+    "function": {
+      "name": "createDir",
+      "description": "Function createDir",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "on_any_event": {
+    "type": "function",
+    "function": {
+      "name": "on_any_event",
+      "description": "Function on_any_event",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "event": {
+            "type": "string",
+            "description": "The event parameter."
+          }
+        },
+        "required": [
+          "event"
+        ]
+      }
+    }
+  },
+  "on_created": {
+    "type": "function",
+    "function": {
+      "name": "on_created",
+      "description": "Function on_created",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "event": {
+            "type": "string",
+            "description": "The event parameter."
+          }
+        },
+        "required": [
+          "event"
+        ]
+      }
+    }
+  },
+  "createdataverse": {
+    "type": "function",
+    "function": {
+      "name": "createdataverse",
+      "description": "Function createdataverse",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "createdataset": {
+    "type": "function",
+    "function": {
+      "name": "createdataset",
+      "description": "Function createdataset",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "titel": {
+            "type": "string",
+            "description": "The titel parameter."
+          }
+        },
+        "required": [
+          "titel"
+        ]
+      }
+    }
+  },
+  "uploaddatafile": {
+    "type": "function",
+    "function": {
+      "name": "uploaddatafile",
+      "description": "Function uploaddatafile",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "ds_pid": {
+            "type": "string",
+            "description": "The ds_pid parameter."
+          }
+        },
+        "required": [
+          "ds_pid"
+        ]
+      }
+    }
+  },
+  "listDataverses": {
+    "type": "function",
+    "function": {
+      "name": "listDataverses",
+      "description": "Function listDataverses",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "zipfiles": {
+    "type": "function",
+    "function": {
+      "name": "zipfiles",
+      "description": "Function zipfiles",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "gui": {
+    "type": "function",
+    "function": {
+      "name": "gui",
+      "description": "Function gui",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "toggle_dataset": {
+    "type": "function",
+    "function": {
+      "name": "toggle_dataset",
+      "description": "Function toggle_dataset",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "search": {
+    "type": "function",
+    "function": {
+      "name": "search",
+      "description": "Function search",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  "submit": {
+    "type": "function",
+    "function": {
+      "name": "submit",
+      "description": "Function submit",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  }
+}

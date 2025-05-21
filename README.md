@@ -3,9 +3,10 @@
 Framework for providing universal containerized Digital Twins with modular structure in Kubernetes.\
 This Fraemwork was published in the following Papers. If you find it useful for your research, please consider citing it.
 
-| URL | Title | Stage   |
-| --- | ----- |---------|
-|[**10.1109**](https://doi.org/10.1109/ICECCME57830.2023.10253365) | **Conceptual Architecture for the Provision and Aggregation of Universal Digital Twins within Containerization Environments** | Concept |
+| DOI | Title | Stage          |
+| --- | ----- |----------------|
+|[**10.1109/ICECCME57830.2023.10253365**](https://doi.org/10.1109/ICECCME57830.2023.10253365) | **Conceptual Architecture for the Provision and Aggregation of Universal Digital Twins within Containerization Environments** | Concept        |
+|[**10.1109/MIC.2024.3489876**](https://doi.org/10.1109/MIC.2024.3489876) | **UniTwin: Pushing Universal Digital Twins Into the Clouds Through Reconfigurable Container Environments** | Implementation |
 
 
 

@@ -40,7 +40,7 @@ class kube_twin():
         self.namespace = namespace
 
         # Define registry to use
-        self.registry = "registry_ip:registry_port"
+        self.registry = "192.168.100.11:31000"
 
         # Define memory path for serializing deployments
         self.memory_path = "memory/deployments.json"
@@ -164,6 +164,23 @@ class kube_twin():
         # self.serializeDeployment(uid, deployment)
         return response_deployment
 
+    def scaleDeployment(self, name, replicas):
+
+        api_instance = client.AppsV1Api(self.api_client)
+
+        scale = client.V1Scale(
+            spec=client.V1ScaleSpec(
+                replicas=replicas
+            )
+        )
+        response_scale_deployment = api_instance.patch_namespaced_deployment_scale(
+            name=name,
+            namespace=self.namespace,
+            body=scale
+        )
+        print(f"Deployment '{name}' scaled to {replicas} replicas.")
+        return response_scale_deployment
+
     def createService(self, namespace, name, name_svc, container_port):
 
         # Define the service object
@@ -199,7 +216,7 @@ class kube_twin():
                             paths=[
                                 V1HTTPIngressPath(
                                     path="/" + name + "(/|$)(.*)",
-                                    path_type="Prefix",
+                                    path_type="ImplementationSpecific",
                                     backend=V1IngressBackend(
                                         service=V1IngressServiceBackend(
                                             port=V1ServiceBackendPort(
@@ -219,6 +236,54 @@ class kube_twin():
         response_ingress = api_instance.create_namespaced_ingress(namespace=namespace, body=ingress).status
         print("Ingress created. status='%s'" % str(response_ingress))
         return response_ingress
+
+    # def createPersistentVolume(self, name, path, node):
+    #     # Define the Persistent Volume (PV) configuration
+    #     persistentVolume = V1PersistentVolume(
+    #         api_version="v1",
+    #         kind="PersistentVolume",
+    #         metadata={"name": name},
+    #         spec={
+    #             "capacity": {"storage": "1Gi"},
+    #             "access_modes": ["ReadWriteOnce"],
+    #             "persistent_volume_reclaim_policy": "Retain",
+    #             "host_path": {"path": path},
+    #             "node_affinity": {
+    #                 "required": {
+    #                     "node_selector_terms": [
+    #                         {
+    #                             "match_fields": [
+    #                                 {"key": "kubernetes.io/hostname", "operator": "In", "values": [node]}
+    #                             ]
+    #                         }
+    #                     ]
+    #                 }
+    #             }
+    #         }
+    #     )
+    #
+    #     # Create the Persistent Volume (PV)
+    #     api_instance = client.CoreV1Api(self.api_client)
+    #     response_persistenvolume = api_instance.create_persistent_volume(body=persistentVolume).status
+    #     print("PersistenVolume created. status='%s'" % str(response_persistenvolume))
+    #
+    # def createPersistentVolumeClaim(self, name):
+    #     # Define the Persistent Volume (PV) configuration
+    #     persistentVolumeClaim = V1PersistentVolumeClaim(
+    #         api_version="v1",
+    #         kind="PersistentVolumeClaim",
+    #         metadata={"name": name},
+    #         spec={
+    #             "access_modes": ["ReadWriteOnce"],
+    #             "resources": {"requests": {"storage": "1Gi"}}
+    #         }
+    #     )
+    #
+    #     # Create the Persistent Volume (PV)
+    #     api_instance = client.CoreV1Api(self.api_client)
+    #     response_persistenvolumeclaim = api_instance.create_namespaced_persistent_volume_claim(body=persistentVolumeClaim).status
+    #     print("PersistenVolume created. status='%s'" % str(response_persistenvolumeclaim))
+
     def deleteTwin(self, definition):
 
         # Define the namespace for the deployment, service, and ingress
@@ -478,6 +543,12 @@ class kube_twin():
                     path="/tmp/.X11-unix")
             )
             deployment.spec.template.spec.volumes.append(X11_volume)
+            # Xauth_volume = V1Volume(
+            #     name="xauth",
+            #     host_path=V1HostPathVolumeSource(
+            #         path="/root/.Xauthority")
+            # )
+            # deployment.spec.template.spec.volumes.append(Xauth_volume)
 
             # Update deployment
             print(deployment)

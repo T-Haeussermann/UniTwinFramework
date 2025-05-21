@@ -17,6 +17,7 @@ class method_MQTT(Component):
         msg["Topic"] = msg["Topic"].replace(self.parent._uid + "/", "")
 
         if msg["Topic"] == "Measurement":
+            print(msg)
             for sensor in msg["Message"]:
                 try:
                     value = float(msg["Message"][sensor]["value"])
@@ -31,8 +32,15 @@ class method_MQTT(Component):
                             unit = None
                     else:
                         unit = None
-                    db = self.parent.getChild("class_Influxdb-I1")
-                    db.write(self.parent._uid, sensor, value, unit)
+                    # db = self.parent.getChild("class_Influxdb-I1")
+                    # db.write(self.parent._uid, sensor, value, unit)
+
+                    if hasattr(self, "_subscribers"):
+                        for subscriber in self._subscribers:
+                            subscriber = self.parent.getChild(subscriber)
+                            subscriber.Q.put({"Topic": msg["Topic"], "Message":{"sensor": sensor, "value": value, "unit": unit}})
+                    self._event()
+
                 except Exception as e:
                     traceback.print_exc()
                     print("Invalid Format")

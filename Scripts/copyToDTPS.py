@@ -44,6 +44,9 @@ dtps_pod_name, dtps_pod_id = get_pod_name_by_deployment(deployment_name, namespa
 os.chdir("..")
 for path in paths:
     for file in os.listdir(path):
-        command = f"kubectl cp {path}/{file} {namespace}/{dtps_pod_name}:/{path}/{file} -c {container_name}"
+        if os.path.isfile(f"{path}/{file}"):
+            command = f"kubectl cp {path}/{file} {namespace}/{dtps_pod_name}:/{path}/{file} -c {container_name}"
+        elif os.path.isdir(f"{path}/{file}"):
+            command = f"kubectl cp {path}/{file} {namespace}/{dtps_pod_name}:/{path} -c {container_name}"
         os.system(command)
 

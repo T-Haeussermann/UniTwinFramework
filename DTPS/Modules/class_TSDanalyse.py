@@ -162,7 +162,7 @@ class class_TSDanalyse(Component):
         self.mqttInstance = self.parent.getChild(self.mqttInstance)
 
     def configure_router(self):
-        @self._router.get("/TSDanalyse/initialize")
+        @self._router.get(f"/{self._id}/TSDanalyse/initialize")
         def read_item(background_tasks: BackgroundTasks, initialization_time: int = None, description: str = None, overwrite: bool = False):
             if self.initialized is True and overwrite is True:
                 if description != None and initialization_time != None:

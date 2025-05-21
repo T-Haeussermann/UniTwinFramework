@@ -9,14 +9,14 @@ from .class_Event import Event
 class class_scanerControll(Component):
     def __init__(self, _conf):
         self._event = Event()
-
-        self._router = APIRouter()
-        self.configure_router()
+        self.Q = Queue()
 
         for item in _conf:
             self.__setattr__(item, _conf[item])
 
-        self.Q = Queue()
+        self._router = APIRouter()
+        self.configure_router()
+
 
     def get_action(self):
         msg = self.Q.get()
@@ -73,56 +73,56 @@ class class_scanerControll(Component):
 
 
     def configure_router(self):
-        @self._router.post("/start/")
+        @self._router.post(f"/{self._id}/start/")
         def start_scanner():
             method = "POST"
             endpoint = "/start_scan"
             resp = self.scanner_action(method, endpoint)
             return resp
 
-        @self._router.post("/stop/")
+        @self._router.post(f"/{self._id}/stop/")
         def stop_scanner():
             method = "POST"
             endpoint = "/stop_scan"
             resp = self.scanner_action(method, endpoint)
             return resp
 
-        @self._router.post("/reset/")
+        @self._router.post(f"/{self._id}/reset/")
         def reset_scanner():
             method = "POST"
             endpoint = "/reset_scan"
             resp = self.scanner_action(method, endpoint)
             return resp
 
-        @self._router.post("/lsc/get_status")
+        @self._router.post(f"/{self._id}/lsc/get_status")
         def reset_scanner():
             method = "GET"
             endpoint = "/lsc/get_status"
             resp = self.scanner_action(method, endpoint)
             return resp
 
-        @self._router.post("/lsc/get_position")
+        @self._router.post(f"/{self._id}/lsc/get_position")
         def reset_scanner():
             method = "GET"
             endpoint = "/lsc/get_position"
             resp = self.scanner_action(method, endpoint)
             return resp
 
-        @self._router.post("/lsc/set_do_ref")
+        @self._router.post(f"/{self._id}/lsc/set_do_ref")
         def reset_scanner():
             method = "POST"
             endpoint = "/lsc/set_do_ref"
             resp = self.scanner_action(method, endpoint)
             return resp
 
-        @self._router.post("/ham/get_ham_status")
+        @self._router.post(f"/{self._id}/ham/get_ham_status")
         def reset_scanner():
             method = "GET"
             endpoint = "/ham/get_ham_status"
             resp = self.scanner_action(method, endpoint)
             return resp
 
-        @self._router.post("/tell/action")
+        @self._router.post(f"/{self._id}/tell/action")
         def tell_action(action):
             self.publish_actions(action)
 

@@ -10,12 +10,12 @@ class class_Minio(Component):
     def __init__(self, _conf):
         self._event = Event()
 
-        # add route to server file
-        self._router = APIRouter()
-        self._router.add_api_route("/server_file/{file}", self.server_file, methods=["GET"])
-
         for item in _conf:
             self.__setattr__(item, _conf[item])
+
+        # add route to server file
+        self._router = APIRouter()
+        self._router.add_api_route(f"/{self._id}/server_file/{file}", self.server_file, methods=["GET"])
 
         self._client = Minio(endpoint=self._endpoint, access_key=self._access_key, secret_key=self._secret_key, secure=False)
 
