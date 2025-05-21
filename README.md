@@ -24,7 +24,9 @@ If you use UniTwin in your research, please consider citing the following public
   month     = jul,
   pages     = {1--6}
 }
-
+}
+```
+```bibtex
 @article{Hae2025,
   title     = {UniTwin: Pushing Universal Digital Twins Into the Clouds Through Reconfigurable Container Environments},
   volume    = {29},
