@@ -1,6 +1,7 @@
 cff-version: 1.2.0
-message: "If you use this framework, please cite the following work:"
-title: "UniTwin: Universal Containerized Digital Twins Framework"
+message: "If you use this framework or build upon it, please cite the following article:"
+type: article
+title: "UniTwin: Pushing Universal Digital Twins Into the Clouds Through Reconfigurable Container Environments"
 authors:
   - family-names: Häußermann
     given-names: Tim M.
@@ -14,7 +15,14 @@ authors:
     given-names: Felix
   - family-names: Reichwald
     given-names: Julian
-doi: 10.1109/MIC.2024.3489876
-date-released: 2025-01
-version: "1.0.0"
+doi: 10.1109/mic.2024.3489876
+url: https://doi.org/10.1109/MIC.2024.3489876
+date-published: 2025-01-01
+journal:
+  name: IEEE Internet Computing
+  volume: 29
+  issue: 1
+  pages: 8-15
+publisher: Institute of Electrical and Electronics Engineers (IEEE)
+issn: 1941-0131
 repository-code: https://github.com/T-Haeussermann/UniTwinFramework
