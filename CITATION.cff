@@ -32,11 +32,10 @@ preferred-citation:
   title: "UniTwin: Pushing Universal Digital Twins Into the Clouds Through Reconfigurable Container Environments"
   doi: 10.1109/mic.2024.3489876
   url: https://doi.org/10.1109/MIC.2024.3489876
-  date-published: 2025-01-01
-  journal:
-      name: IEEE Internet Computing
-      volume: 29
-      issue: 1
-      pages: 8-15
+  date-published: 2025-01
+  ISSN: 1941-0131,
+  journal: IEEE Internet Computing,
+  volume: 29,
+  pages: 8-15
   publisher: Institute of Electrical and Electronics Engineers (IEEE)
   issn: 1941-0131
