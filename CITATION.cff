@@ -1,30 +1,36 @@
 cff-version: 1.2.0
 message: "If you use this framework or build upon it, please cite the following article:"
-type: article
-title: "UniTwin: Pushing Universal Digital Twins Into the Clouds Through Reconfigurable Container Environments"
 authors:
-  - family-names: Häußermann
-    given-names: Tim M.
-  - family-names: Lehmann
-    given-names: Joel
-  - family-names: Rache
-    given-names: Alessa
-  - family-names: Kolb
-    given-names: Florian
-  - family-names: Wühler
-    given-names: Felix
-  - family-names: Reichwald
-    given-names: Julian
-doi: 10.1109/mic.2024.3489876
-url: https://doi.org/10.1109/MIC.2024.3489876
-date-published: 2025-01-01
-journal:
-  name: IEEE Internet Computing
-  volume: 29
-  issue: 1
-  pages: 8-15
-publisher: Institute of Electrical and Electronics Engineers (IEEE)
-issn: 1941-0131
+  - family-names: "Häußermann"
+    given-names: "Tim M."
+    orcid: "https://orcid.org/0000-0002-4020-4089"
+title: "UniTwinFramework"
+version: 1.0.0
+date-released: 2025-05-21
+url: "https://github.com/deinbenutzername/deinprojekt"
 preferred-citation:
   type: article
-
+  authors:
+      - family-names: Häußermann
+        given-names: Tim M.
+      - family-names: Lehmann
+        given-names: Joel
+      - family-names: Rache
+        given-names: Alessa
+      - family-names: Kolb
+        given-names: Florian
+      - family-names: Wühler
+        given-names: Felix
+      - family-names: Reichwald
+        given-names: Julian
+  title: "UniTwin: Pushing Universal Digital Twins Into the Clouds Through Reconfigurable Container Environments"
+  doi: 10.1109/mic.2024.3489876
+  url: https://doi.org/10.1109/MIC.2024.3489876
+  date-published: 2025-01-01
+  journal:
+      name: IEEE Internet Computing
+      volume: 29
+      issue: 1
+      pages: 8-15
+  publisher: Institute of Electrical and Electronics Engineers (IEEE)
+  issn: 1941-0131
