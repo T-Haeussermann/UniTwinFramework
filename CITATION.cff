@@ -13,16 +13,22 @@ preferred-citation:
   authors:
       - family-names: Häußermann
         given-names: Tim M.
+        orcid: "https://orcid.org/0000-0002-4020-4089"
       - family-names: Lehmann
         given-names: Joel
+        orcid: "https://orcid.org/0000-0001-8261-8362"
       - family-names: Rache
         given-names: Alessa
+        orcid: "https://orcid.org/0000-0001-7598-8672"
       - family-names: Kolb
         given-names: Florian
+        orcid: "https://orcid.org/0009-0003-7985-9685"
       - family-names: Wühler
         given-names: Felix
+        orcid: "https://orcid.org/0000-0002-4821-8549"
       - family-names: Reichwald
         given-names: Julian
+        orcid: "https://orcid.org/0000-0002-4809-5710"
   title: "UniTwin: Pushing Universal Digital Twins Into the Clouds Through Reconfigurable Container Environments"
   doi: 10.1109/mic.2024.3489876
   url: https://doi.org/10.1109/MIC.2024.3489876
