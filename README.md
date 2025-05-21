@@ -3,12 +3,43 @@
 Framework for providing universal containerized Digital Twins with modular structure in Kubernetes.\
 This Fraemwork was published in the following Papers. If you find it useful for your research, please consider citing it.
 
-| DOI | Title | Stage          |
-| --- | ----- |----------------|
-|[**10.1109/ICECCME57830.2023.10253365**](https://doi.org/10.1109/ICECCME57830.2023.10253365) | **Conceptual Architecture for the Provision and Aggregation of Universal Digital Twins within Containerization Environments** | Concept        |
-|[**10.1109/MIC.2024.3489876**](https://doi.org/10.1109/MIC.2024.3489876) | **UniTwin: Pushing Universal Digital Twins Into the Clouds Through Reconfigurable Container Environments** | Implementation |
+| DOI | Title | Stage          | Cite                   |
+| --- | ----- |----------------|------------------------|
+|[**10.1109/ICECCME57830.2023.10253365**](https://doi.org/10.1109/ICECCME57830.2023.10253365) | **Conceptual Architecture for the Provision and Aggregation of Universal Digital Twins within Containerization Environments** | Concept | [`Hae2023`](#Citation) |
+|[**10.1109/MIC.2024.3489876**](https://doi.org/10.1109/MIC.2024.3489876) | **UniTwin: Pushing Universal Digital Twins Into the Clouds Through Reconfigurable Container Environments** | Implementation | [`Hae2025`](#Citation) |
 
+## Citation
 
+If you use UniTwin in your research, please consider citing the following publications:
+
+```bibtex
+@INPROCEEDINGS{Hae2023,
+  title     = {Conceptual Architecture for the Provision and Aggregation of Universal Digital Twins within Containerization Environments},
+  url       = {http://dx.doi.org/10.1109/ICECCME57830.2023.10253365},
+  DOI       = {10.1109/iceccme57830.2023.10253365},
+  booktitle = {2023 3rd International Conference on Electrical, Computer, Communications and Mechatronics Engineering (ICECCME)},
+  publisher = {IEEE},
+  author    = {Häußermann, Tim and Lehmann, Joel and Rache, Alessa and Reichwald, Julian},
+  year      = {2023},
+  month     = jul,
+  pages     = {1--6}
+}
+
+@article{Hae2025,
+  title     = {UniTwin: Pushing Universal Digital Twins Into the Clouds Through Reconfigurable Container Environments},
+  volume    = {29},
+  number    = {1},
+  pages     = {8--15},
+  ISSN      = {1941-0131},
+  url       = {http://dx.doi.org/10.1109/MIC.2024.3489876},
+  DOI       = {10.1109/mic.2024.3489876},
+  journal   = {IEEE Internet Computing},
+  publisher = {Institute of Electrical and Electronics Engineers (IEEE)},
+  author    = {Häußermann, Tim M. and Lehmann, Joel and Rache, Alessa and Kolb, Florian and Wühler, Felix and Reichwald, Julian},
+  year      = {2025},
+  month     = jan
+}
+```
 
 ## Architecture
 <img src="img/Concept.svg" width="100%" />

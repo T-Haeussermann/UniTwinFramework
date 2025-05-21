@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this framework, please cite the following work:"
+title: "UniTwin: Universal Containerized Digital Twins Framework"
+authors:
+  - family-names: Häußermann
+    given-names: Tim M.
+  - family-names: Lehmann
+    given-names: Joel
+  - family-names: Rache
+    given-names: Alessa
+  - family-names: Kolb
+    given-names: Florian
+  - family-names: Wühler
+    given-names: Felix
+  - family-names: Reichwald
+    given-names: Julian
+doi: 10.1109/MIC.2024.3489876
+date-released: 2025-01
+version: "1.0.0"
+repository-code: https://github.com/T-Haeussermann/UniTwinFramework
