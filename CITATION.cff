@@ -33,10 +33,9 @@ preferred-citation:
   doi: 10.1109/mic.2024.3489876
   url: https://doi.org/10.1109/MIC.2024.3489876
   date-published: 2025-01
-  journal:
-      name: IEEE Internet Computing
-      volume: 29
-      issue: 1
-      pages: 8-15
+  journal: IEEE Internet Computing
   publisher: Institute of Electrical and Electronics Engineers (IEEE)
+  volume: "29"
+  issue: "1"
+  pages: "8–15"
   issn: 1941-0131
