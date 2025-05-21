@@ -11,7 +11,14 @@ This Fraemwork was published in the following Papers. If you find it useful for 
 
 
 ## Architecture
-<img src="img/Konzept.svg" width="100%" />
+<img src="img/Concept.svg" width="100%" />
+
+From: [**10.1109/ICECCME57830.2023.10253365**](https://doi.org/10.1109/ICECCME57830.2023.10253365)
+
+## Implementation
+<img src="img/Implementation.svg" width="100%" />
+
+From: [**10.1109/MIC.2024.3489876**](https://doi.org/10.1109/MIC.2024.3489876)
 
 ## Prequisits
 1. Running Kubernetes-Cluster
