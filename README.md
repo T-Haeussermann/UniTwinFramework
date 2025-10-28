@@ -76,16 +76,16 @@ If you use UniTwin in your research, please consider citing the following public
 ```
 
 ## Architecture
-<img src="img/Concept.svg" width="100%" />
+<img alt="Concept" src="img/Concept.svg" width="100%" />
 
 From: [**10.1109/ICECCME57830.2023.10253365**](https://doi.org/10.1109/ICECCME57830.2023.10253365)
 
 ## Implementation
-<img src="img/Implementation.svg" width="100%" />
+<img alt="Implementation" src="img/Implementation.svg" width="100%" />
 
 From: [**10.1109/MIC.2024.3489876**](https://doi.org/10.1109/MIC.2024.3489876)
 
-<img src="img/Implementation_Aggregation.svg" width="100%" />
+<img alt="Implementation_Aggregation" src="img/Implementation_Aggregation.svg" width="100%">
 
 From: [**10.3390/iot6040057**](http://dx.doi.org/10.3390/iot6040057)
 
