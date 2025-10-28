@@ -1,4 +1,5 @@
 import os
+import json
 
 # Define UniTwin_standalone Dockerfile, Version and Tag
 dockerfileUniTwin = "./DockerfileUniTwinStandalone"
@@ -8,7 +9,14 @@ tagUniTwin = "unitwin_standalone:" + versionUniTwin
 # Define additional variables
 docker_ignore_file = ".dockerignore"
 module_path = "DTPS/Modules"
-add_classes = ["class_MQTT", "method_MQTT"]
+conf_file = "conf_standalone.json"
+add_classes = []
+
+with open(file=conf_file, mode="r") as file:
+    conf = json.load(file)
+
+for class_name in conf:
+    add_classes.append(class_name)
 
 # Change working directory
 os.chdir("..")

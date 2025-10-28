@@ -3,10 +3,12 @@
 Framework for providing universal containerized Digital Twins with modular structure in Kubernetes.\
 This Fraemwork was published in the following Papers. If you find it useful for your research, please consider citing it.
 
-| DOI | Title | Stage          | Cite                   |
-| --- | ----- |----------------|------------------------|
-|[**10.1109/ICECCME57830.2023.10253365**](https://doi.org/10.1109/ICECCME57830.2023.10253365) | **Conceptual Architecture for the Provision and Aggregation of Universal Digital Twins within Containerization Environments** | Concept | [`Hae2023`](#Citation) |
-|[**10.1109/MIC.2024.3489876**](https://doi.org/10.1109/MIC.2024.3489876) | **UniTwin: Pushing Universal Digital Twins Into the Clouds Through Reconfigurable Container Environments** | Implementation | [`Hae2025`](#Citation) |
+| DOI | Title | Stage          | Cite                     |
+| --- | ----- |----------------|--------------------------|
+|[**10.1109/ICECCME57830.2023.10253365**](https://doi.org/10.1109/ICECCME57830.2023.10253365) | **Conceptual Architecture for the Provision and Aggregation of Universal Digital Twins within Containerization Environments** | Concept | [`Hae2023`](#Citation)   |
+|[**10.1109/MIC.2024.3489876**](https://doi.org/10.1109/MIC.2024.3489876) | **UniTwin: Pushing Universal Digital Twins Into the Clouds Through Reconfigurable Container Environments** | Implementation | [`Hae2025-1`](#Citation) |
+|[**10.3390/iot6040057**](http://dx.doi.org/10.3390/iot6040057) | **UniTwin: Enabling Multi-Digital Twin Coordination for Modeling Distributed and Complex Systems** | Implementation | [`Hae2025-2`](#Citation) |
+|[**10.1109/ACCESS.2025.3619153**](https://doi.org/10.1109/ACCESS.2025.3619153) | **A Comparative Study of UniTwin and Established Digital Twin Frameworks for IoT Applications** | Implementation | [`Hae2025-3`](#Citation) |
 
 ## Citation
 
@@ -27,7 +29,7 @@ If you use UniTwin in your research, please consider citing the following public
 }
 ```
 ```bibtex
-@article{Hae2025,
+@article{Hae2025-1,
   title     = {UniTwin: Pushing Universal Digital Twins Into the Clouds Through Reconfigurable Container Environments},
   volume    = {29},
   number    = {1},
@@ -42,6 +44,36 @@ If you use UniTwin in your research, please consider citing the following public
   month     = jan
 }
 ```
+```bibtex
+@article{Hae2025-2,
+  title = {UniTwin: Enabling Multi-Digital Twin Coordination for Modeling Distributed and Complex Systems},
+  volume = {6},
+  ISSN = {2624-831X},
+  url = {http://dx.doi.org/10.3390/iot6040057},
+  DOI = {10.3390/iot6040057},
+  number = {4},
+  journal = {IoT},
+  publisher = {MDPI AG},
+  author = {Häußermann,  Tim Markus and Lehmann,  Joel and Kolb,  Florian and Rache,  Alessa and Reichwald,  Julian},
+  year = {2025},
+  month = sep,
+  pages = {57}
+}
+```
+```bibtex
+@article{Hae2025-3,
+  title = {A Comparative Study of UniTwin and Established Digital Twin Frameworks for IoT Applications},
+  volume = {13},
+  ISSN = {2169-3536},
+  url = {http://dx.doi.org/10.1109/ACCESS.2025.3619153},
+  DOI = {10.1109/access.2025.3619153},
+  journal = {IEEE Access},
+  publisher = {Institute of Electrical and Electronics Engineers (IEEE)},
+  author = {Häußermann,  Tim Markus and Lehmann,  Joel and Rache,  Alessa and Kolb,  Florian and Reichwald,  Julian},
+  year = {2025},
+  pages = {175225–175243}
+}
+```
 
 ## Architecture
 <img src="img/Concept.svg" width="100%" />
@@ -52,6 +84,10 @@ From: [**10.1109/ICECCME57830.2023.10253365**](https://doi.org/10.1109/ICECCME57
 <img src="img/Implementation.svg" width="100%" />
 
 From: [**10.1109/MIC.2024.3489876**](https://doi.org/10.1109/MIC.2024.3489876)
+
+<img src="img/Implementation_Aggregation.svg" width="100%" />
+
+From: [**10.3390/iot6040057**](http://dx.doi.org/10.3390/iot6040057)
 
 ## Prequisits
 1. Running Kubernetes-Cluster

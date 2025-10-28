@@ -1,0 +1,33 @@
+{
+   "class_MQTT":{
+      "I1":{
+         "_id":"class_MQTT-I1",
+         "_username":"dbt",
+         "_passwd":"dbt",
+         "_host":"mq.jreichwald.de",
+         "_port":1883,
+         "_topic_sub":[
+            "Topic1",
+            "Topic2",
+            "Measurement"
+         ],
+         "_subscribers":{
+            "method_MQTT-I1":"method_MQTT"
+         },
+         "_subscriptions":{
+
+         }
+      }
+   },
+   "method_MQTT":{
+      "I1":{
+         "_id":"method_MQTT-I1",
+         "_subscribers":{
+
+         },
+         "_subscriptions":{
+
+         }
+      }
+   }
+}
