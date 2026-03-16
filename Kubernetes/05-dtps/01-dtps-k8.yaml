@@ -25,6 +25,8 @@ spec:
             value: "/etc/kubernetes/admin.conf"
           - name: "DISPLAY"
             value: "display"
+          - name: "LOCAL_DEPLOYMENT"
+            value: "True"
         ports:
         - containerPort: 8000
         volumeMounts:

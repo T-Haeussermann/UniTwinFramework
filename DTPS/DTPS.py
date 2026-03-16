@@ -9,11 +9,14 @@ from fastapi import FastAPI, BackgroundTasks, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import uvicorn
+from collections import defaultdict
+from typing import Dict
 from digitwin import DigitalTwin, DigitalTwinSchema
 from serializer import MongoDTSerializer
 from confstorage import MongoConfSerializer
 from Functions.class_kube_twin import kube_twin
 from json_configurator import dt_config_generator_router
+from json_configurator import dt_config_generator_router_local
 import traceback
 
 """Variables"""
@@ -21,6 +24,11 @@ listDT = []
 memorylistDT = []
 clusterlistDT = []
 namespace = "dt"
+LOCAL_DEPLOYMENT = os.getenv("LOCAL_DEPLOYMENT", 'False').lower() in ('true', '1', 't')
+# dict of lamport clocks for every DTs
+lamport_clocks = defaultdict(int)
+# Status der laufenden Migrationen pro DT
+migration_status: Dict[str, Dict] = {}
 
 # Warm up databases so there's already a connection made
 MongoDTSerializer.initialize()
@@ -129,6 +137,31 @@ def twinLearn(uid, url):
     except:
         print(f"{uid}: triggern /learn. Failed! Twin is not running.")
 
+def increment_lamport(uid: str) -> int:
+    lamport_clocks[uid] += 1
+    return lamport_clocks[uid]
+
+def update_lamport(uid: str, received_lamport: int) -> int:
+    lamport_clocks[uid] = max(lamport_clocks[uid], received_lamport) + 1
+    return lamport_clocks[uid]
+
+
+def migrate_twin_and_wait(uid: str, target_url: str, lamport: int):
+    try:
+        conf = MongoConfSerializer.load_twin(uid)
+        payload = {
+            "id": uid,
+            "conf": json.dumps(conf),
+            "version": "1.0",
+            "assignNode": False,
+            "lamport": lamport,
+            "source_url": f"http://{os.getenv('HOSTNAME')}:8000{rootPath}"  # callback to this cluster
+        }
+        requests.post(f"{target_url}/migrateHere", json=payload)
+    except Exception:
+        traceback.print_exc()
+        migration_status.pop(uid, None)
+
 
 # create instance of kube_twin to manage twins
 kube_twin_manager = kube_twin(namespace)
@@ -154,9 +187,15 @@ for item in listDT:
 
 """create API"""
 rootPath = "/dtps"
-app = FastAPI(root_path=rootPath)
+if LOCAL_DEPLOYMENT:
+    app = FastAPI()
+else:
+    app = FastAPI(root_path=rootPath)
 app.mount("/json_configurator/static", StaticFiles(directory="json_configurator/static"), name="static")
-app.include_router(dt_config_generator_router.router)
+if LOCAL_DEPLOYMENT:
+    app.include_router(dt_config_generator_router_local.router)
+else:
+    app.include_router(dt_config_generator_router.router)
 
 """define API methods and input models"""
 class TwinConfig(BaseModel):
@@ -179,6 +218,13 @@ class ScaleTwin(BaseModel):
     uid: str
     replicas: int
 
+class MigrationRequest(BaseModel):
+    uid: str
+    target_url: str  # e.g. http://new-cluster.domain/api
+
+class MigrationReady(BaseModel):
+    uid: str
+    lamport: int
 
 @app.post("/createTwin")
 # async def createTwin(conf, version="1.0", assignNode=False, node_name=None):
@@ -240,7 +286,7 @@ async def createTwin(config: TwinConfigID):
 
     # Serialize DT
 
-    MongoConfSerializer.persist( id | conf)
+    MongoConfSerializer.persist(id | conf)
 
     # start unitwin deployment on kubernetes
     kube_twin_manager.deployTwin(kube_twin_manager.defineTwin(uid, version), assignNode, node_name)
@@ -357,8 +403,6 @@ async def addConf(class_name, instance_conf, uid, background_tasks: BackgroundTa
         traceback.print_exc()
         return {uid: "invalid configuration. No changes!"}
 
-
-
 @app.delete("/removeConfInstance/{uid}")
 async def removeConf(class_name, instance, uid, background_tasks: BackgroundTasks):
     # get old conf to use if any problems occure
@@ -455,6 +499,94 @@ def assignNode(uid, node_name):
     # assign dt to node
     deployment_name = "dt-" + uid
     return kube_twin_manager.assignNode(deployment_name, namespace, node_name)
+
+@app.post("/migrateTo")
+async def migrate(request: MigrationRequest, background_tasks: BackgroundTasks):
+    uid = request.uid
+    target_url = request.target_url.rstrip("/")
+
+    if uid not in listDT:
+        return {"status": f"UID {uid} not found"}
+
+    # Lamport hochzählen (lokales Ereignis)
+    current_lamport = increment_lamport(uid)
+
+    migration_status[uid] = {
+        "target_url": target_url,
+        "lamport": current_lamport
+    }
+
+    background_tasks.add_task(migrate_twin_and_wait, uid, target_url, current_lamport)
+    return {"status": "Migration started", "lamport": current_lamport}
+
+@app.post("/migrateHere")
+async def migrate_here(config: TwinConfigID):
+    # Access values from the parsed config
+    id = config.id
+    conf = config.conf
+    version = config.version
+    assignNode = config.assignNode
+    node_name = config.node_name
+
+    try:
+        conf = json.loads(conf)
+    except:
+        return {"status": "Invalid configuration"}
+
+    # Set up DT
+    dt = createdt()
+    dt._id = id
+    uid = str(dt._id)
+    MongoConfSerializer.persist({'_id': uid} | conf)
+
+    kube_twin_manager.deployTwin(kube_twin_manager.defineTwin(uid, version), assignNode, node_name)
+
+    listDT.append(uid)
+    with open('./memory/listDT.pkl', 'wb') as output:
+        output.truncate()
+        pickle.dump(listDT, output, pickle.HIGHEST_PROTOCOL)
+
+    # Hole Lamport-Uhr aus Migrationsdaten (falls übermittelt)
+    lamport = config.__dict__.get("lamport", 0)
+    source_url = config.__dict__.get("target_url")
+
+    if source_url:
+        try:
+            requests.post(
+                f"{source_url}/migrationReady",
+                json={"uid": uid, "lamport": lamport}
+            )
+        except Exception:
+            traceback.print_exc()
+            return {"status": "Deployed, but failed to notify source"}
+
+    return {uid: "Migrated here successfully", "notified": bool(source_url)}
+
+
+@app.post("/migrationReady")
+async def migration_ready(signal: MigrationReady):
+    uid = signal.uid
+    received_lamport = signal.lamport
+
+    # Update Lamport-Clock mit erhaltenem Timestamp
+    updated_lamport = update_lamport(uid, received_lamport)
+
+    #ToDo
+    #Lamport persistent machen
+
+    expected_lamport = migration_status.get(uid, {}).get("lamport")
+    if expected_lamport is None:
+        return {"status": "no active migration"}
+
+    if received_lamport == expected_lamport:
+        # Migration ist erfolgreich abgeschlossen
+        print(f"[✓] Migration ready for {uid} (lamport {received_lamport})")
+        kube_twin_manager.deleteTwin(kube_twin_manager.defineTwin(uid, version="1.0"))
+        MongoConfSerializer.delete_conf(uid)
+        migration_status.pop(uid, None)
+        return {"status": f"twin {uid} deleted"}
+    else:
+        return {"status": f"Ignored: outdated Ready signal (got {received_lamport}, expected {expected_lamport})"}
 
 """rund API server. swagger ui on http://127.0.0.1:8000/docs#/"""
 uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info")
